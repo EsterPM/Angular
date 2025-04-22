@@ -5,30 +5,29 @@
 
 </div>
 
+<!--Les variables estan a app.component.ts-->
+<div class="demo">
+  <!--Transforma un objecte Date a un format de data llegible.-->
+  <div>Start Date: {{startDate | date: 'MMM dd yyyy'}}</div>
+
+  <div> {{title | uppercase}}</div>
+
+  <!--3 dígits mínims a l'esquerra del punt decimal i entre 3 i 5 dígits a la dreta del punt decimal-->
+  <div> {{price | number: '3.3-5'}}</div>
+
+  <div> {{rate | percent}}</div>
+</div>
 
 <div class="courses">
-  <!--(event) → Output, del fill cap al pare   [propietat] → Input, del pare cap al fill-->
-  <!--Per cada curs dins courses, mostra un course-card i usa l'id com a identificador únic-->
-  @for (course of courses; track course.id;
-    let index = $index; let count = $count;
-    let first = $first; let last = $last;
-    let even = $even; let odd = $odd) {
-    <!--
-    Índex de l'element (0, 1, 2, ...), s'ha de fer input al ts del component
-    Count = Nombre total d'elements a la llista
-    First i Last: true si és el primer element o últim element (per aplicar estils per exemple)
-    Even i Odd: true si l'índex és parell o senar (per aplicar estils per exemple)
-    -->
+
+  <!--slice: Tallar un array-->
+  @for (course of courses | slice:0:2; track course.id;
+    let index = $index;) {
 
     <course-card
     [course]="course"
     [index]="index"
-    [class.is-first]="first"
-    [class.is-last]="last"
-    [class.is-even]="even"
-    [class.is-odd]="odd"
     (courseSelected)="onCourseSelected($event)"  />
-
   }
 
   <!--Si la llista és buida-->
@@ -38,3 +37,4 @@
 </div>
 
 
+{{ courses | json }}
