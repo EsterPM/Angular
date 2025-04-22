@@ -1,17 +1,33 @@
-<!--*ngIf="course", li estàs dient a Angular que només renderitzi aquest element si course té un valor-->
-<!--El component està completament carregat i les dades estan disponibles abans d'intentar aplicar ngClass o qualsevol altra directiva o vinculació.
-perque no doni error.-->
 
-<!--ngStyle per aplicar estils-->
-<div class="course-class" *ngIf="course" [ngClass]="cardClasses()" [ngStyle]="cardStyles()">
+<div class="course-card"> <!--Era course card no class U.u-->
 
   <div class="course-title">
-    <h1>{{ index }} {{ course.description }}</h1>
+    {{ course.description }}
     <!--data binding d'Angular: mostra el valor que té la propietat description del model course.-->
   </div>
 
+  <img width="300" alt="Angular Logo" [src]="course.iconUrl">
+
   <div class="course-description">
     {{ course.longDescription }}
+  </div>
+
+  <!--Funciona com un switch normal-->
+  <div class="course-category">
+    @switch (course.category) {
+      @case ("BEGINNER") {
+        <div class="category">Beginner</div>
+      }
+      @case ("INTERMEDIATE") {
+        <div class="category">Intermediate</div>
+      }
+      @case ("ADVANCED") {
+        <div class="category">Advanced</div>
+      }
+      @default {
+        <div class="category">Unknown</div>
+      }
+    }
   </div>
 
   <button (click)="onCourseViewed()">View Course</button> <!--Event click, la funció esta a course-card.components.ts-->
