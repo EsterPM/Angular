@@ -1,7 +1,7 @@
 <div class="course-card">
 
   <div class="course-title">
-      {{ course.description }}  <!--data binding d'Angular: mostra el valor que té la propietat description del model course.-->
+      {{ index }} {{ course.description }}  <!--data binding d'Angular: mostra el valor que té la propietat description del model course.-->
   </div>
   <img width="300" alt="Angular Logo"
        [src]="course.iconUrl"> <!--property binding: per posar la imatge segons l'URL de la propietat iconUrl del model course.-->

@@ -13,6 +13,9 @@ export class CourseCardComponent {
   @Input()
   course: Course;
 
+  @Input()
+  index: number;
+
   //crea un esdeveniment de sortida personalitzat
   @Output('courseSelected') //El nom entre cometes és com es veurà des del component pare.
   courseEmitter = new EventEmitter<Course>();
