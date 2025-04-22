@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Course } from '../model/course';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'course-card',
+  standalone: true, //Afegit perque no funcionava els ng
+  imports: [CommonModule], ////Afegit perque no funcionava els ng
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.css'
 })
@@ -30,6 +33,8 @@ export class CourseCardComponent {
   cardClasses() {
     if (this.course.category == 'BEGINNER') {
       return 'beginner';
+    } else {
+      return '';
     }
   }
 }
