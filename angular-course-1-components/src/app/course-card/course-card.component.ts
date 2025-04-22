@@ -37,4 +37,10 @@ export class CourseCardComponent {
       return '';
     }
   }
+
+  //Aplicar estils amb ngStyle
+  cardStyles() {
+    return {
+      'background-image': 'url(' + this.course.iconUrl + ')'};
+  }
 }

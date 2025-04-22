@@ -1,24 +1,14 @@
 <!--*ngIf="course", li estàs dient a Angular que només renderitzi aquest element si course té un valor-->
 <!--El component està completament carregat i les dades estan disponibles abans d'intentar aplicar ngClass o qualsevol altra directiva o vinculació.
 perque no doni error.-->
-<div class="course-class" *ngIf="course" [ngClass]="cardClasses()">
+
+<!--ngStyle per aplicar estils-->
+<div class="course-class" *ngIf="course" [ngClass]="cardClasses()" [ngStyle]="cardStyles()">
 
   <div class="course-title">
-    {{ index }} {{ course.description }}
+    <h1>{{ index }} {{ course.description }}</h1>
     <!--data binding d'Angular: mostra el valor que té la propietat description del model course.-->
   </div>
-
-  <!--Funciona com un if/else normal-->
-  @if (course.id == 1) {
-    <h2>Course with ID 1 detected!</h2>
-  }
-  @else if (course.iconUrl) {
-    <img width="300" alt="Angular Logo" [src]="course.iconUrl">
-    <!--property binding: per posar la imatge segons l'URL de la propietat iconUrl del model course.-->
-  }
-  @else {
-    <h2>No image available!</h2>
-  }
 
   <div class="course-description">
     {{ course.longDescription }}
