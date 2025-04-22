@@ -1,4 +1,7 @@
-<div class="course-card">
+<!--*ngIf="course", li estàs dient a Angular que només renderitzi aquest element si course té un valor-->
+<!--El component està completament carregat i les dades estan disponibles abans d'intentar aplicar ngClass o qualsevol altra directiva o vinculació.
+perque no doni error.-->
+<div class="course-class" *ngIf="course" [ngClass]="cardClasses()">
 
   <div class="course-title">
     {{ index }} {{ course.description }}

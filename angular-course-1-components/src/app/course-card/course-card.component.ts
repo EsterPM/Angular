@@ -3,7 +3,6 @@ import { Course } from '../model/course';
 
 @Component({
   selector: 'course-card',
-  imports: [],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.css'
 })
@@ -22,10 +21,15 @@ export class CourseCardComponent {
 
 
   onCourseViewed() {
-
     console.log("Click")
     //Emet un esdeveniment amb el curs com a valor
     this.courseEmitter.emit(this.course);
+  }
 
+  //afegir una classe CSS al teu component HTML amb ngClass
+  cardClasses() {
+    if (this.course.category == 'BEGINNER') {
+      return 'beginner';
+    }
   }
 }
