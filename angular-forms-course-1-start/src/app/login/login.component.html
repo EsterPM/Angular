@@ -2,11 +2,11 @@
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
 
-    <!--Et permet accedir i controlar el formulari des del component.-->
-    <form class="login-form data-form" #loginForm="ngForm">
+    <!--ngSubmit, per formularis complets amb validació-->
+    <form class="login-form data-form" #loginForm="ngForm"
+          (ngSubmit)="login(loginForm, $event)">
 
       <mat-form-field>
-
         <!--ngModel perque ngForm pugui interectuar. #email.... per poder accedir directament al input-->
         <input matInput type="email" name="email"
               ngModel #email="ngModel"
@@ -37,7 +37,9 @@
 
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="login(loginForm)">
+      <!--El boto estará desactivat si els camps no son valids-->
+      <button mat-raised-button color="primary" type="submit"
+            [disabled]="!loginForm.valid">
         Login
       </button>
 
