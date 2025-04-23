@@ -10,7 +10,15 @@
         <!--ngModel perque ngForm pugui interectuar. #email.... per poder accedir directament al input-->
         <input matInput type="email" name="email"
               ngModel #email="ngModel"
+              required
               placeholder="Email">
+
+        <!--Missatges d'error-->
+        <mat-error>
+          @if (email.errors?.required) {
+            The email is mandatory.
+          }
+          </mat-error>
 
       </mat-form-field>
 
@@ -18,6 +26,7 @@
 
         <input matInput type="password" name="password"
                ngModel #password="ngModel"
+               required
                placeholder="Password">
 
       </mat-form-field>
@@ -28,10 +37,10 @@
 
     </form>
 
-    <!--Exemple per accedir als valors del form sencer o a cadascun dels inputs-->
+    <!--Exemple per veure les validacions-->
     <div class="form-val">
-      {{ loginForm.value | json }}
-      {{ email.value + ' ' + password.value}}
+      {{ loginForm.valid | json }}
+      {{ email.valid + ' ' + password.valid}}
     </div>
 
   </mat-card-content>
