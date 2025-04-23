@@ -7,9 +7,12 @@
           (ngSubmit)="login(loginForm, $event)">
 
       <mat-form-field>
-        <!--ngModel perque ngForm pugui interectuar. #email.... per poder accedir directament al input-->
+        <!--ngModelChange evalua els canvis
+        Options perque no evalui cada lletra, només quan es canvi el focus.-->
         <input matInput type="email" name="email"
               ngModel #email="ngModel"
+              [ngModelOptions]="{updateOn: 'blur'}"
+              (ngModelChange)="onEmailChange($event)"
               required minlength="3" email
               placeholder="Email">
 
@@ -29,9 +32,10 @@
       </mat-form-field>
 
       <mat-form-field>
-
+        <!--Standlone true fa que el form no tingui en compte aquest input, pero no es sol fer servir-->
         <input matInput type="password" name="password"
                ngModel #password="ngModel"
+               [ngModelOptions]="{standalone:true}"
                required
                placeholder="Password">
 
