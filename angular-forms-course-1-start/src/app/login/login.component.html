@@ -10,13 +10,19 @@
         <!--ngModel perque ngForm pugui interectuar. #email.... per poder accedir directament al input-->
         <input matInput type="email" name="email"
               ngModel #email="ngModel"
-              required
+              required minlength="3" email
               placeholder="Email">
 
         <!--Missatges d'error-->
         <mat-error>
           @if (email.errors?.required) {
             The email is mandatory.
+          }
+          @else if (email.errors?.minlength) {
+            Your email must have minimum...
+          }
+          @else if (email.errors?.email) {
+            This is not a valid email
           }
           </mat-error>
 
