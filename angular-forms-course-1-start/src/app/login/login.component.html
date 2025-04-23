@@ -7,10 +7,8 @@
           (ngSubmit)="login(loginForm, $event)">
 
       <mat-form-field>
-        <!--[()] bidireccional. Que canvia el valor del objecte val
-        [] unireccional. No canvia el valor inicial-->
         <input matInput type="email" name="email"
-              [(ngModel)]="val.email"
+              [ngModel]="val.email"
               #email="ngModel"
               required minlength="3" email
               placeholder="Email">
@@ -32,10 +30,19 @@
 
       <mat-form-field>
         <input matInput type="password" name="password"
-               [(ngModel)]="val.password"
+               [ngModel]="val.password"
                #password="ngModel"
-               required
+               required passwordStrength
                placeholder="Password">
+
+        <mat-error>
+          @if (password.errors?.required) {
+            The password is mandatory.
+          }
+          @else if(password.errors?.passwordStrength) {
+            Your password must have ...
+          }
+        </mat-error>
 
       </mat-form-field>
 
