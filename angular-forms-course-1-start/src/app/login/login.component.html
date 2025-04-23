@@ -7,12 +7,11 @@
           (ngSubmit)="login(loginForm, $event)">
 
       <mat-form-field>
-        <!--ngModelChange evalua els canvis
-        Options perque no evalui cada lletra, només quan es canvi el focus.-->
+        <!--[()] bidireccional. Que canvia el valor del objecte val
+        [] unireccional. No canvia el valor inicial-->
         <input matInput type="email" name="email"
-              ngModel #email="ngModel"
-              [ngModelOptions]="{updateOn: 'blur'}"
-              (ngModelChange)="onEmailChange($event)"
+              [(ngModel)]="val.email"
+              #email="ngModel"
               required minlength="3" email
               placeholder="Email">
 
@@ -32,10 +31,9 @@
       </mat-form-field>
 
       <mat-form-field>
-        <!--Standlone true fa que el form no tingui en compte aquest input, pero no es sol fer servir-->
         <input matInput type="password" name="password"
-               ngModel #password="ngModel"
-               [ngModelOptions]="{standalone:true}"
+               [(ngModel)]="val.password"
+               #password="ngModel"
                required
                placeholder="Password">
 
