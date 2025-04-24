@@ -1,4 +1,5 @@
 <div [formGroup]="form">
+
   <!--Crea un camp de formulari amb estil de Material Design.-->
   <mat-form-field>
     <!--matInput aplica l'estil Material.-->
@@ -10,8 +11,24 @@
 
     <mat-error>
       @if (courseTitle.errors?.titleExists) {
-        This title is already being used.
+      This title is already being used.
       }
     </mat-error>
   </mat-form-field>
+
+  <!--Calendari data-->
+  <mat-form-field>
+    <!--matDatepicker=releaseDatePicker: vincula el <input> al calendari.-->
+    <input matInput [matDatepicker]="releaseDatePicker" formControlName="releasedAt" placeholder="Release date">
+    <!--mostra una icona que obre el calendari.-->
+    <mat-datepicker-toggle matSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
+    <!--defineix el calendari.-->
+    <mat-datepicker #releaseDatePicker></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<div class="form-val">
+
+    {{form.value | json}}
+
 </div>
