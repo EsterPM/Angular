@@ -16,6 +16,16 @@
     </mat-error>
   </mat-form-field>
 
+  <!--selecció desplegable-->
+  <mat-form-field>
+    <mat-select placeholder="Select category" formControlName="category">
+      <ng-container *ngFor="let category of (courseCategories$ | async)">
+        <!-- El valor de cada opció serà el category.code, i el que es mostrarà al usuari és el category.description.-->
+        <mat-option [value]="category.code">{{category.description}}</mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
   <!--Calendari data-->
   <mat-form-field>
     <!--matDatepicker=releaseDatePicker: vincula el <input> al calendari.-->
