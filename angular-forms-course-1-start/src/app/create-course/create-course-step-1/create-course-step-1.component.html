@@ -1,0 +1,11 @@
+<div [formGroup]="form">
+  <!--Crea un camp de formulari amb estil de Material Design.-->
+  <mat-form-field>
+    <!--matInput aplica l'estil Material.-->
+    <input matInput placeholder="Course title" formControlName="title" #title>
+    <!--Mostra un contador de caràcters en temps real.-->
+    <mat-hint align="end">
+      {{ title.value.length }} / 60
+    </mat-hint>
+  </mat-form-field>
+</div>
