@@ -4,10 +4,10 @@ import { createPasswordStrenghtValidator } from '../validators/password-strength
 
 
 @Component({
-    selector: 'login',
-    templateUrl: './login-reactive.component.html',
-    styleUrls: ['./login-reactive.component.css'],
-    standalone: false
+  selector: 'login',
+  templateUrl: './login-reactive.component.html',
+  styleUrls: ['./login-reactive.component.css'],
+  standalone: false
 })
 export class LoginReactiveComponent implements OnInit {
 
@@ -15,10 +15,11 @@ export class LoginReactiveComponent implements OnInit {
   form = this.fb.group({
     email: ["", {
       validators: [Validators.required, Validators.email],
-      updateOn: 'blur'}],
+      updateOn: 'blur'
+    }],
     password: ['', [Validators.required, Validators.minLength(8),
-                      createPasswordStrenghtValidator()]]
- });
+    createPasswordStrenghtValidator()]]
+  });
 
   //Es declara al constructor
   constructor(private fb: FormBuilder) {
@@ -28,6 +29,15 @@ export class LoginReactiveComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  //Per poder accedir amb el nom sense posar tota la linea
+  get email() {
+    return this.form.controls['email'];
+  }
+
+  get password() {
+    return this.form.controls['password'];
   }
 
 }
