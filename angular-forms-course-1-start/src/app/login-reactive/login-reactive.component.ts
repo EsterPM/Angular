@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -9,6 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginReactiveComponent implements OnInit {
 
+  /*
+  * FormGroup: representa el formulari sencer.
+  * FormControl: representa cada camp individual.
+  * validators: array de validacions per cada camp
+  */
+  form = new FormGroup({
+    email: new FormControl('', {validators: [Validators.required, Validators.email]}),
+    password: new FormControl('', {validators: [Validators.required, Validators.minLength(8)]})
+  });
 
   constructor() {
 
