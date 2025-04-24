@@ -23,7 +23,9 @@ export class CreateCourseStep1Component implements OnInit {
       asyncValidators: [courseTitleValidator(this.courses)],
       updateOn: 'blur'
     }],
-    releasedAt: [new Date(), Validators.required] //Un valor inicial que és la data actual
+    releasedAt: [new Date(), Validators.required], //Un valor inicial que és la data actual
+    downloadsAllowed: [false, Validators.requiredTrue], //El valor inicial és false (la casella de verificació està desmarcada per defecte)
+    longDescription: ['', [Validators.required, Validators.minLength(3)]]
   });
 
   constructor(private fb: FormBuilder, private courses: CoursesService) {
