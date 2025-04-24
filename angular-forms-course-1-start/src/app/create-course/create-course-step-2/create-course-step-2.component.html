@@ -1,0 +1,15 @@
+<div [formGroup]="form">
+
+  <!--agrupa els botons de selecció (mat-radio-button), assegurant que només es pot seleccionar una opció dins del grup.-->
+  <mat-radio-group formControlName="courseType">
+    <mat-radio-button value="free">Free</mat-radio-button>
+    <mat-radio-button value="premium">Premium</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+
+<div class="form-val">
+
+  {{form.value | json}}
+
+</div>

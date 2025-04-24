@@ -10,6 +10,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class CreateCourseStep2Component implements OnInit {
 
+  form = this.fb.group({
+    courseType: ['premium', Validators.required]
+  });
+
+  constructor(private fb: FormBuilder) {
+
+  }
 
   ngOnInit() {
 
