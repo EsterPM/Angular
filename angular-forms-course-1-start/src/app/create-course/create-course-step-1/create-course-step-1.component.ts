@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoursesService } from '../../services/courses.service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { courseTitleValidator } from '../../validators/course-title.validator';
 
 @Component({
   selector: 'create-course-step-1',
@@ -18,10 +19,13 @@ export class CreateCourseStep1Component implements OnInit {
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(60)
-      ]}]
-    });
+      ],
+      asyncValidators: [courseTitleValidator(this.courses)],
+      updateOn: 'blur'
+    }]
+  });
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private courses: CoursesService) {
 
   }
 
@@ -29,4 +33,8 @@ export class CreateCourseStep1Component implements OnInit {
 
   }
 
+  //facilita accedir al control des del HTML.
+  get courseTitle() {
+    return this.form.controls['title'];
+  }
 }

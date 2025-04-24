@@ -7,5 +7,11 @@
     <mat-hint align="end">
       {{ title.value.length }} / 60
     </mat-hint>
+
+    <mat-error>
+      @if (courseTitle.errors?.titleExists) {
+        This title is already being used.
+      }
+    </mat-error>
   </mat-form-field>
 </div>
