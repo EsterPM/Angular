@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { createPasswordStrenghtValidator } from '../validators/password-strength.validator';
 
 
@@ -11,7 +11,13 @@ import { createPasswordStrenghtValidator } from '../validators/password-strength
 })
 export class LoginReactiveComponent implements OnInit {
 
-  //manera més neta i concisa de crear formularis reactius a Angular amb FormBuilder
+  //Non nullable perque el valor no pugui se null i agafa el valor per defecte ""
+  /*
+  email: this.fb.nonNullable.control ("", {
+      validators: [Validators.required, Validators.email],
+      updateOn: 'blur'
+    }),
+  */
   form = this.fb.group({
     email: ["", {
       validators: [Validators.required, Validators.email],
@@ -21,8 +27,8 @@ export class LoginReactiveComponent implements OnInit {
     createPasswordStrenghtValidator()]]
   });
 
-  //Es declara al constructor
-  constructor(private fb: FormBuilder) {
+  //Si es declara aqui el non nullable serveix per tots els capms del formulari
+  constructor(private fb: NonNullableFormBuilder) {
 
 
   }
@@ -38,6 +44,17 @@ export class LoginReactiveComponent implements OnInit {
 
   get password() {
     return this.form.controls['password'];
+  }
+
+  login() {
+
+  }
+
+  reset() {
+    this.form.reset();
+
+    console.log(this.form.value);
+
   }
 
 }
