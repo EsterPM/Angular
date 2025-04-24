@@ -33,16 +33,24 @@
                [ngModel]="val.password"
                #password="ngModel"
                required passwordStrength
+               minlength="8"
                placeholder="Password">
 
         <mat-error>
           @if (password.errors?.required) {
             The password is mandatory.
           }
-          @else if(password.errors?.passwordStrength) {
+        </mat-error>
+
+        <!--Es posa aixi per el control d'errors, pero ara no es fa servir el ng-container.-->
+        <ng-container *ngIf="password.errors | onlyOneError:['minlength', 'passwordStrength'] as error">
+          @if(error.passwordStrength) {
             Your password must have ...
           }
-        </mat-error>
+          @if (error.minlength) {
+            Must have minium...
+          }
+        </ng-container>
 
       </mat-form-field>
 
