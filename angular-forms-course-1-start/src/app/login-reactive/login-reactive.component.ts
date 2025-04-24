@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { createPasswordStrenghtValidator } from '../validators/password-strength.validator';
 
 
@@ -11,17 +11,17 @@ import { createPasswordStrenghtValidator } from '../validators/password-strength
 })
 export class LoginReactiveComponent implements OnInit {
 
-  /*
-  * FormGroup: representa el formulari sencer.
-  * FormControl: representa cada camp individual.
-  * validators: array de validacions per cada camp
-  */
-  form = new FormGroup({
-    email: new FormControl('', {validators: [Validators.required, Validators.email], updateOn: 'blur'}),
-    password: new FormControl('', {validators: [Validators.required, Validators.minLength(8), createPasswordStrenghtValidator()]})
-  });
+  //manera més neta i concisa de crear formularis reactius a Angular amb FormBuilder
+  form = this.fb.group({
+    email: ["", {
+      validators: [Validators.required, Validators.email],
+      updateOn: 'blur'}],
+    password: ['', [Validators.required, Validators.minLength(8),
+                      createPasswordStrenghtValidator()]]
+ });
 
-  constructor() {
+  //Es declara al constructor
+  constructor(private fb: FormBuilder) {
 
 
   }
