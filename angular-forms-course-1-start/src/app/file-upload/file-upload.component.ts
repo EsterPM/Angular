@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { catchError, finalize } from 'rxjs/operators';
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { noop, of } from 'rxjs';
 
 
@@ -12,15 +12,21 @@ import { noop, of } from 'rxjs';
   providers: [
     //Angular no sap que ha d'utilitzar el teu component com a control de formulari si no l'hi dius amb aquest provider.
     {
-        provide: NG_VALUE_ACCESSOR,
-        multi: true,
-        useExisting: FileUploadComponent
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: FileUploadComponent
+    },
+    //Necessari per la validació personalitzada
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: FileUploadComponent
     }
   ],
   standalone: false
 })
 
-export class FileUploadComponent implements ControlValueAccessor {
+export class FileUploadComponent implements ControlValueAccessor, Validator {
   //Variables i propietats
   @Input()
   requiredFileType: string;
@@ -30,6 +36,8 @@ export class FileUploadComponent implements ControlValueAccessor {
   onChange = (fileName: string) => { };
   onTouched = () => { };
   disabled: boolean = false;
+  fileUploadSuccess = false;
+  onValidatorChange = () => { };
 
   constructor(private http: HttpClient) {
 
@@ -77,7 +85,9 @@ export class FileUploadComponent implements ControlValueAccessor {
           }
           //Si finalitza correctament crida onChange amb el nom del fitxer.
           else if (event.type == HttpEventType.Response) {
+            this.fileUploadSuccess = true;
             this.onChange(this.fileName);
+            this.onValidatorChange();
           }
         });
     }
@@ -98,5 +108,29 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
+  }
+
+
+  //s'utilitza per notificar a Angular quan el resultat de la validació pot haver canviat
+  registerOnValidatorChange(onValidatorChange: () => void) {
+    this.onValidatorChange = onValidatorChange;
+  }
+
+  //implementar la validació personalitzada
+  validate(control: AbstractControl): ValidationErrors | null {
+
+    if (this.fileUploadSuccess) {
+      return null;
+    }
+
+    let errors: any = {
+      requiredFileType: this.requiredFileType
+    };
+
+    if (this.fileUploadError) {
+      errors.uploadFailed = true;
+    }
+
+    return errors;
   }
 }
