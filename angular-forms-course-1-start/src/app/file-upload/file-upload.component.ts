@@ -17,8 +17,8 @@ export class FileUploadComponent {
   requiredFileType: string;
 
   fileName = '';
-
   fileUploadError = false;
+  uploadProgress: number;
 
   constructor(private http: HttpClient) {
 
@@ -36,19 +36,29 @@ export class FileUploadComponent {
       const formData = new FormData();
       //Hi afegeixes el fitxer amb el nom "thumbnail" (ha de coincidir amb el que espera el backend).
       formData.append("thumbnail", file);
-
       this.fileUploadError = false;
 
-      this.http.post("/api/thumbnail-upload", formData)
-        // Si hi ha un error en la pujada
+      //Petició post
+      this.http.post("/api/thumbnail-upload", formData, {
+        reportProgress: true, //indica que volem informació sobre l'estat de la pujada
+        observe: 'events' //fa que la resposta retorni diversos esdeveniments
+      })
         .pipe(
           catchError(error => {
             this.fileUploadError = true;
             return of(error);
+          }),
+          //quan tot ha acabat (sigui correcte o error), es reinicia el valor de uploadProgress
+          finalize(() => {
+            this.uploadProgress = null;
           })
         )
-        .subscribe();
-
+        //Cada vegada que arriba un esdeveniment, comprova si és del tipus UploadProgress
+        .subscribe(event => {
+          if (event.type == HttpEventType.UploadProgress) {
+            this.uploadProgress = Math.round(100 * (event.loaded / event.total));
+          }
+        });
     }
   }
 }
