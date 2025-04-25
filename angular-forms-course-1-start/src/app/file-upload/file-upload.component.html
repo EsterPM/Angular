@@ -1,2 +1,17 @@
+<!--L'esdeveniment (change) s'activa quan l'usuari selecciona un fitxer.-->
+<input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
 
+<div class="file-upload">
 
+  <mat-form-field>
+    <!--Mostra el nom del fitxer seleccionat, però no permet l'edició-->
+    <input matInput [disabled]="true" [value]="fileName">
+
+  </mat-form-field>
+
+  <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload(fileUpload)">
+    <mat-icon>attach_file</mat-icon>
+
+  </button>
+
+</div>
