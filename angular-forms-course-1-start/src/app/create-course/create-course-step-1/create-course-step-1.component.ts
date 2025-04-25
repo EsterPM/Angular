@@ -6,8 +6,8 @@ import { filter } from 'rxjs/operators';
 import { courseTitleValidator } from '../../validators/course-title.validator';
 
 interface CourseCategory {
-  code:string;
-  description:string;
+  code: string;
+  description: string;
 }
 
 @Component({
@@ -35,7 +35,7 @@ export class CreateCourseStep1Component implements OnInit {
   });
 
   //Obtenció de les categories del curs
-  courseCategories$ : Observable<CourseCategory[]>;
+  courseCategories$: Observable<CourseCategory[]>;
 
   constructor(private fb: FormBuilder, private courses: CoursesService) {
 
@@ -44,6 +44,23 @@ export class CreateCourseStep1Component implements OnInit {
   ngOnInit() {
     // retorna un array de categories per mostrar-lo al formulari
     this.courseCategories$ = this.courses.findCourseCategories();
+
+
+    //Permet que les dades del formulari es conservin encara que es cambi de pàgina
+    //Intenta obtenir el valor emmagatzemat al localStorage amb la clau "STEP_1". Si existeixen dades prèviament emmagatzemades, la variable draft contindrà el valor corresponent.
+    const draft = localStorage.getItem("STEP_1");
+
+    //Carregar les dades en el formulari
+    if (draft) {
+      this.form.setValue(JSON.parse(draft));
+    }
+
+    //Guardant les dades quan el formulari és vàlid
+    this.form.valueChanges
+      .pipe(
+        filter(() => this.form.valid)
+      )
+      .subscribe(val => localStorage.setItem("STEP_1", JSON.stringify(val)));
   }
 
   //facilita accedir al control des del HTML.
