@@ -18,6 +18,11 @@ export class FileUploadComponent {
 
   fileName = '';
 
+  fileUploadError = false;
+
+  constructor(private http: HttpClient) {
+
+  }
 
   onFileSelected(event) {
     //el primer fitxer seleccionat
@@ -26,9 +31,24 @@ export class FileUploadComponent {
     if (file) {
       //Assigna el nom del fitxer a la variable fileName
       this.fileName = file.name;
-      console.log(this.fileName);
+
+      //objecte FormData per enviar el fitxer com si fos un formulari.
+      const formData = new FormData();
+      //Hi afegeixes el fitxer amb el nom "thumbnail" (ha de coincidir amb el que espera el backend).
+      formData.append("thumbnail", file);
+
+      this.fileUploadError = false;
+
+      this.http.post("/api/thumbnail-upload", formData)
+        // Si hi ha un error en la pujada
+        .pipe(
+          catchError(error => {
+            this.fileUploadError = true;
+            return of(error);
+          })
+        )
+        .subscribe();
+
     }
-
   }
-
 }
