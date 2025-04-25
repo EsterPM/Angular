@@ -22,9 +22,13 @@ export class FileUploadComponent {
   onFileSelected(event) {
     //el primer fitxer seleccionat
     const file: File = event.target.files[0];
-    //Assigna el nom del fitxer a la variable fileName
-    this.fileName = file.name;
-    console.log(this.fileName);
+
+    if (file) {
+      //Assigna el nom del fitxer a la variable fileName
+      this.fileName = file.name;
+      console.log(this.fileName);
+    }
+
   }
 
 }
