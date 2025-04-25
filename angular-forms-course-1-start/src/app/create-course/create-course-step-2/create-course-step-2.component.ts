@@ -19,12 +19,13 @@ export class CreateCourseStep2Component implements OnInit {
       Validators.max(9999),
       Validators.pattern("[0-9]+")
     ]],
+    thumbnail: [null], //Nom arxiu per pujar al servidor
     promoStartAt: [null],
     promoEndAt: [null]
   },
     {
       validators: [createPromoRangeValidator()],
-      updateOn: 'blur'
+      //eliminar blur perque dona problemes amb la pujada d'arxius
     });
 
   constructor(private fb: FormBuilder) {

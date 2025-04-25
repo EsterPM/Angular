@@ -9,19 +9,36 @@ import { noop, of } from 'rxjs';
   selector: 'file-upload',
   templateUrl: "file-upload.component.html",
   styleUrls: ["file-upload.component.scss"],
+  providers: [
+    //Angular no sap que ha d'utilitzar el teu component com a control de formulari si no l'hi dius amb aquest provider.
+    {
+        provide: NG_VALUE_ACCESSOR,
+        multi: true,
+        useExisting: FileUploadComponent
+    }
+  ],
   standalone: false
 })
 
-export class FileUploadComponent {
+export class FileUploadComponent implements ControlValueAccessor {
+  //Variables i propietats
   @Input()
   requiredFileType: string;
-
   fileName = '';
   fileUploadError = false;
   uploadProgress: number;
+  onChange = (fileName: string) => { };
+  onTouched = () => { };
+  disabled: boolean = false;
 
   constructor(private http: HttpClient) {
 
+  }
+
+  //Simula un clic a l'input type="file" per obrir el diàleg de selecció de fitxers.
+  onClick(fileUpload: HTMLInputElement) {
+    this.onTouched();
+    fileUpload.click();
   }
 
   onFileSelected(event) {
@@ -58,7 +75,28 @@ export class FileUploadComponent {
           if (event.type == HttpEventType.UploadProgress) {
             this.uploadProgress = Math.round(100 * (event.loaded / event.total));
           }
+          //Si finalitza correctament crida onChange amb el nom del fitxer.
+          else if (event.type == HttpEventType.Response) {
+            this.onChange(this.fileName);
+          }
         });
     }
+  }
+
+  //Mètodes del ControlValueAccessor: Permeten que aquest component funcioni dins d'un formControl com si fos un <input> normal
+  writeValue(value: any) {
+    this.fileName = value;
+  }
+
+  registerOnChange(onChange: any) {
+    this.onChange = onChange;
+  }
+
+  registerOnTouched(onTouched: any) {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(disabled: boolean) {
+    this.disabled = disabled;
   }
 }
