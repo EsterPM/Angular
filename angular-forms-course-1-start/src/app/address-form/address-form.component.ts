@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -8,29 +8,71 @@ import {
   Validator,
   Validators
 } from '@angular/forms';
-import {noop, Subscription} from 'rxjs';
+import { noop, Subscription } from 'rxjs';
 
 @Component({
-    selector: 'address-form',
-    templateUrl: './address-form.component.html',
-    styleUrls: ['./address-form.component.scss'],
-    standalone: false
+  selector: 'address-form',
+  templateUrl: './address-form.component.html',
+  styleUrls: ['./address-form.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: AddressFormComponent
+    }
+  ],
+  standalone: false
 })
-export class AddressFormComponent {
+export class AddressFormComponent implements ControlValueAccessor, OnDestroy {
 
-    @Input()
-    legend:string;
+  @Input()
+  legend: string;
 
-    form: FormGroup = this.fb.group({
-        addressLine1: [null, [Validators.required]],
-        addressLine2: [null, [Validators.required]],
-        zipCode: [null, [Validators.required]],
-        city: [null, [Validators.required]]
-    });
+  onTouched = () => { };
 
-    constructor(private fb: FormBuilder) {
+  onChangeSub: Subscription;
+
+  form: FormGroup = this.fb.group({
+    addressLine1: [null, [Validators.required]],
+    addressLine2: [null, [Validators.required]],
+    zipCode: [null, [Validators.required]],
+    city: [null, [Validators.required]]
+  });
+
+  constructor(private fb: FormBuilder) {
+  }
+
+  //Això fa que cada cop que l'usuari canviï un camp del formulari, Angular rebi automàticament el nou valor.
+  //onChangeSub guarda la connexió als canvis del formulari.
+  registerOnChange(onChange: any) {
+    this.onChangeSub = this.form.valueChanges.subscribe(onChange);
+  }
+
+  //ngOnDestroy() trenca la connexió (unsubscribe) quan el component es destrueix.
+  ngOnDestroy() {
+    this.onChangeSub.unsubscribe();
+  }
+
+
+  writeValue(value: any) {
+    if (value) {
+      this.form.setValue(value);
+    }
+  }
+
+  registerOnTouched(onTouched: any) {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(disabled: boolean) {
+    if (disabled) {
+      this.form.disable();
+    }
+    else {
+      this.form.enable();
     }
 
+  }
 }
 
 
