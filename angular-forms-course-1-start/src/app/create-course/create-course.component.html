@@ -3,7 +3,7 @@
   <h2 class="title">Create New Course</h2>
   <!--mat-horizontal-stepper permet dividir el formulari en passos.-->
   <!--linear=true: obliga a completar cada pas abans d'avançar al següent.-->
-  <mat-horizontal-stepper [linear]="false" class="mat-elevation-z5" labelPosition="bottom">
+  <mat-horizontal-stepper [linear]="true" class="mat-elevation-z5" labelPosition="bottom">
 
     <!--Representa un pas del formulari.-->
     <!--[stepControl]: indica el FormGroup que s'ha d'omplir correctament per avançar.-->
@@ -47,7 +47,9 @@
 
         <button mat-raised-button matStepperPrevious>Back</button>
 
-        <button mat-raised-button color="primary" [disabled]="!step3.form.valid">
+        <button mat-raised-button color="primary"
+              [disabled]="!step3.form.valid || step3.lessons.length == 0"
+              (click)="submit(step1.form.value, step2.form.value, step3.form.value)">
           Create Course
         </button>
 

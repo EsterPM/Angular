@@ -32,7 +32,7 @@ export class CreateCourseStep1Component implements OnInit {
     category: ['BEGINNER', Validators.required],
     downloadsAllowed: [false, Validators.requiredTrue], //El valor inicial és false (la casella de verificació està desmarcada per defecte)
     longDescription: ['', [Validators.required, Validators.minLength(3)]],
-    address: [null, Validators.required] //Form dins a form
+    //address: [null, Validators.required] //Form dins a form
   });
 
   //Obtenció de les categories del curs
