@@ -14,7 +14,7 @@ export class LessonDetailComponent implements OnInit {
 
   lesson$: Observable<LessonDetail>;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
 
     console.log("Created LessonDetailComponent...");
 
@@ -23,5 +23,19 @@ export class LessonDetailComponent implements OnInit {
   ngOnInit() {
     //No es correcte del tot encara
     this.lesson$ = this.route.snapshot.data["lesson"];
+  }
+
+  previous(lesson: LessonDetail) {
+
+    this.router.navigate(['lessons', lesson.seqNo - 1],
+        //indica que la ruta base és el nivell superior a lesson-detail, és a dir, el component del curs (CourseComponent).
+        {relativeTo: this.route.parent});
+  }
+
+
+  next(lesson: LessonDetail) {
+
+      this.router.navigate(['lessons', lesson.seqNo + 1],
+          {relativeTo: this.route.parent});
   }
 }
