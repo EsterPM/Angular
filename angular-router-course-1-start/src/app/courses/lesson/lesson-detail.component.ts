@@ -7,7 +7,8 @@ import {map} from "rxjs/operators";
 @Component({
   selector: 'lesson',
   templateUrl: './lesson-detail.component.html',
-  styleUrls: ['./lesson-detail.component.css']
+  styleUrls: ['./lesson-detail.component.css'],
+  standalone: false
 })
 export class LessonDetailComponent implements OnInit {
 
