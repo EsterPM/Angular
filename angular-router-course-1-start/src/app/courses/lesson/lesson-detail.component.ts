@@ -21,8 +21,8 @@ export class LessonDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    //No es correcte del tot encara
-    this.lesson$ = this.route.snapshot.data["lesson"];
+    //extreu la lliçó de la clau lesson definida a la ruta
+    this.lesson$ = this.route.data.pipe(map(data => data["lesson"]));
   }
 
   previous(lesson: LessonDetail) {
