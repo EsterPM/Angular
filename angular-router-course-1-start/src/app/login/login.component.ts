@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
+import { LoadingService } from './../shared/loading/loading.service';
+import {Component, Input, OnInit} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 
 
-import {Router} from '@angular/router';
 import {AuthStore} from '../services/auth.store';
+
+//activar un indicador de càrrega (loading) mentre es carrega o canvia una ruta.
 
 @Component({
     selector: 'login',
@@ -13,25 +16,51 @@ import {AuthStore} from '../services/auth.store';
 })
 export class LoginComponent implements OnInit {
 
-  form: UntypedFormGroup;
+  //form: UntypedFormGroup;
+
+  @Input()
+  routing: boolean = false;
+
+  @Input()
+  detectRoutingOngoing = false;
 
   constructor(
-    private fb: UntypedFormBuilder,
+    public loadingService: LoadingService,
+    //private fb: UntypedFormBuilder,
     private router: Router,
-    private auth: AuthStore) {
+    //private auth: AuthStore
+    ) {
 
-    this.form = fb.group({
+    /*this.form = fb.group({
       email: ['test@angular-university.io', [Validators.required]],
       password: ['test', [Validators.required]]
-    });
+    });*/
 
   }
 
   ngOnInit() {
-
+    //Escolta els esdeveniments del Router, però només si detectRoutingOngoing === true.
+    if (this.detectRoutingOngoing) {
+      this.router.events
+        .subscribe(
+          event => {
+            //Activa el loading quan: comença la navegacio o es comença a carregar un mòdul amb lazy loading (RouteConfigLoadStart)
+            if (event instanceof NavigationStart || event instanceof RouteConfigLoadStart) {
+              this.loadingService.loadingOn();
+            }
+            //Desactiva el loading
+            else if (event instanceof NavigationEnd ||
+                event instanceof NavigationError ||
+                event instanceof NavigationCancel ||
+                event instanceof RouteConfigLoadEnd) {
+                  this.loadingService.loadingOff();
+                }
+          }
+        )
+    }
   }
 
-  login() {
+  /*login() {
 
     const val = this.form.value;
 
@@ -42,9 +71,6 @@ export class LoginComponent implements OnInit {
                 alert("Login failed!");
             }
         );
-
-
-
-  }
+  }*/
 
 }
