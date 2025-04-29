@@ -7,6 +7,7 @@ import { LessonsListComponent } from './lessons-list/lessons-list.component';
 import { LessonDetailComponent } from './lesson/lesson-detail.component';
 import { LessonsResolver } from './services/lessons.resolver';
 import { LessonDetailResolver } from './services/lesson-detail.resolver';
+import { AuthGuard } from '../services/auth.guard';
 
 //Perquè funcioni lazy loading:
 //El CoursesModule ha de tenir el seu Routing Module (CoursesRoutingModule) amb rutes pròpies.
@@ -22,6 +23,7 @@ const routes: Routes = [
   {
     path: ":courseUrl",
     component: CourseComponent,
+    canActivate: [AuthGuard],
     //Les rutes fill permeten que un component pare (CourseComponent) mostri dins seu components diferents depenent de la ruta.
     children: [
       {
@@ -56,7 +58,8 @@ const routes: Routes = [
   providers: [
     CourseResolver,
     LessonsResolver,
-    LessonDetailResolver
+    LessonDetailResolver,
+    AuthGuard
   ]
 })
 export class CoursesRoutingModule {
