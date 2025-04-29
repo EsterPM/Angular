@@ -5,6 +5,7 @@ import { CourseComponent } from './course/course.component';
 import { CourseResolver } from './services/course.resolver';
 import { LessonsListComponent } from './lessons-list/lessons-list.component';
 import { LessonDetailComponent } from './lesson/lesson-detail.component';
+import { LessonsResolver } from './services/lessons.resolver';
 
 //Perquè funcioni lazy loading:
 //El CoursesModule ha de tenir el seu Routing Module (CoursesRoutingModule) amb rutes pròpies.
@@ -25,6 +26,9 @@ const routes: Routes = [
       {
         path: "",
         component: LessonsListComponent,
+        resolve: {
+          lessons: LessonsResolver
+        }
       },
       {
         path: "lessons/:lessonSeqNo",
@@ -46,7 +50,8 @@ const routes: Routes = [
   exports: [RouterModule],
   //registres el CourseResolver perquè Angular pugui injectar-lo quan es necessiti.
   providers: [
-    CourseResolver
+    CourseResolver,
+    LessonsResolver
   ]
 })
 export class CoursesRoutingModule {
