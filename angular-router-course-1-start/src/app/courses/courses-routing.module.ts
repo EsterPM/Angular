@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CourseComponent } from './course/course.component';
+import { CourseResolver } from './services/course.resolver';
 
 //Perquè funcioni lazy loading:
 //El CoursesModule ha de tenir el seu Routing Module (CoursesRoutingModule) amb rutes pròpies.
@@ -16,7 +17,11 @@ const routes: Routes = [
   //El :courseUrl és un placeholder que pot coincidir amb qualsevol valor dins de l'URL.
   {
     path: ":courseUrl",
-    component: CourseComponent
+    component: CourseComponent,
+    //Abans de mostrar-lo, Angular crida el CourseResolver, que carrega el curs des d'un servei.
+    resolve: {
+      course: CourseResolver
+    }
   }
 ];
 
@@ -26,8 +31,9 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
+  //registres el CourseResolver perquè Angular pugui injectar-lo quan es necessiti.
   providers: [
-
+    CourseResolver
   ]
 })
 export class CoursesRoutingModule {
