@@ -14,16 +14,14 @@ export class LessonDetailComponent implements OnInit {
 
   lesson$: Observable<LessonDetail>;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
 
     console.log("Created LessonDetailComponent...");
 
   }
 
   ngOnInit() {
-
+    //No es correcte del tot encara
+    this.lesson$ = this.route.snapshot.data["lesson"];
   }
-
-
-
 }
