@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { CourseComponent } from './course/course.component';
 
 //Perquè funcioni lazy loading:
 //El CoursesModule ha de tenir el seu Routing Module (CoursesRoutingModule) amb rutes pròpies.
@@ -9,6 +10,13 @@ const routes: Routes = [
   {
     path: "",
     component: HomeComponent
+  },
+
+  //Angular capturarà qualsevol subruta de /courses
+  //El :courseUrl és un placeholder que pot coincidir amb qualsevol valor dins de l'URL.
+  {
+    path: ":courseUrl",
+    component: CourseComponent
   }
 ];
 

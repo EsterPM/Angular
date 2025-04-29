@@ -15,6 +15,7 @@
 
     <mat-card-actions class="course-actions">
 
+        <!--[routerLink]="[course.url]": defineix cap a quina ruta anar.-->
         <button  mat-raised-button color="primary"
             [routerLink]="[course.url]" [queryParams]="{couponCode: 'NEW_YEAR'}">
             VIEW COURSE
