@@ -4,7 +4,11 @@
 
     <div class="toolbar-tools">
 
-      <a class="menu-item" mat-button routerLink="/courses" routerLinkActive="menu-item-active">
+      <!--routerlinkActiveOptions s'utilitza en Angular per controlar quan s'ha d'activar la classe CSS associada a routerLinkActive-->
+      <!--exact: true Angular només aplicarà la classe activa si la URL coincideix exactament amb el routerLink.-->
+      <a class="menu-item" mat-button routerLink="/courses"
+          routerLinkActive="menu-item-active"
+          [routerLinkActiveOptions]="{exact: true}">
         <span>Courses</span>
       </a>
 
