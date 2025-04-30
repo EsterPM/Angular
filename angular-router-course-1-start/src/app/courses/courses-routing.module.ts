@@ -24,6 +24,7 @@ const routes: Routes = [
     path: ":courseUrl",
     component: CourseComponent,
     canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     //Les rutes fill permeten que un component pare (CourseComponent) mostri dins seu components diferents depenent de la ruta.
     children: [
       {
