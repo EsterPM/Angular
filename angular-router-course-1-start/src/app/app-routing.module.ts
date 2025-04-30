@@ -21,7 +21,7 @@ const routes: Routes = [
     path: "courses",
     loadChildren: () => import('./courses/courses.module')
       .then(m => m.CoursesModule),
-    canMatch: [CanLoadAuthGuard]
+    canMatch: [CanLoadAuthGuard]  //CanMatch no afecta al preload (en teoria)
   },
   {
     path: "login",
@@ -42,7 +42,11 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(
+      routes, {
+        //estàs indicant a Angular que carregui tots els mòduls carregats per lazy loading en segon pla després que l'aplicació s'hagi carregat inicialment.
+        preloadingStrategy: PreloadAllModules
+      })
   ],
   exports: [RouterModule],
   providers: [
