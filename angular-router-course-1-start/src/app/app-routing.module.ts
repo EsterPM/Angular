@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { CanLoadAuthGuard } from './services/can-load-auth.guard';
 import { CustomPreloadingStrategy } from './services/custom-preloading.strategy';
 import { ChatComponent } from './chat/chat.component';
+import { error } from 'console';
 
 
 const routes: Routes = [
@@ -54,12 +55,29 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(
       routes, {
-        //ara fem servir el custom
-        preloadingStrategy: CustomPreloadingStrategy,
-        enableTracing: true, //Et mostra a la consola del navegador cada pas que fa Angular mentre navega entre rutes.
-        useHash: true //Utilitza rutes amb hash #
-        //per aplicacions que es serveixen des de servidors sense configuració de rutes
-      })
+      //ara fem servir el custom
+      preloadingStrategy: CustomPreloadingStrategy,
+      enableTracing: true, //Et mostra a la consola del navegador cada pas que fa Angular mentre navega entre rutes.
+      //per aplicacions que es serveixen des de servidors sense configuració de rutes
+      useHash: true, //Utilitza rutes amb hash #
+
+      //Restaura la posició d'scroll quan tornes enrere o avances.
+      scrollPositionRestoration: 'enabled',
+      //Fa que els paràmetres de rutes pare (com courseUrl) es propaguin sempre als fills.
+      paramsInheritanceStrategy: 'always',
+
+      //Ajusta com Angular interpreta enllaços relatius (../, etc.).
+      //ja no és reconeguda com a propietat vàlida
+      //el comportament 'corrected' ja és el valor per defecte i no cal declarar-lo explícitament.
+      //relativeLinkResolution: 'corrected',
+
+      //Funció per capturar errors d'URLs malformades.
+      //ja no és reconeguda dins del tipus ExtraOptions
+      //actualment no hi ha una forma directa d'interceptar-ho via RouterModule.forRoot()
+      /*malformedUriErrorHandler:
+          (error: URIError, urlSerializer: UrlSerializer, url:string) =>
+            urlSerializer.parse("/page-not-found")*/
+    })
   ],
   exports: [RouterModule],
   providers: [
