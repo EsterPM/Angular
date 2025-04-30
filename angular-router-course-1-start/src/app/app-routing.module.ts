@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CanLoadAuthGuard } from './services/can-load-auth.guard';
+import { CustomPreloadingStrategy } from './services/custom-preloading.strategy';
 
 
 const routes: Routes = [
@@ -21,7 +22,10 @@ const routes: Routes = [
     path: "courses",
     loadChildren: () => import('./courses/courses.module')
       .then(m => m.CoursesModule),
-    canMatch: [CanLoadAuthGuard]  //CanMatch no afecta al preload (en teoria)
+    //canMatch: [CanLoadAuthGuard],  //CanMatch no afecta al preload (en teoria)
+    data: {
+      preload: true
+    }
   },
   {
     path: "login",
@@ -44,13 +48,14 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(
       routes, {
-        //estàs indicant a Angular que carregui tots els mòduls carregats per lazy loading en segon pla després que l'aplicació s'hagi carregat inicialment.
-        preloadingStrategy: PreloadAllModules
+        //ara fem servir el custom
+        preloadingStrategy: CustomPreloadingStrategy
       })
   ],
   exports: [RouterModule],
   providers: [
-    CanLoadAuthGuard
+    CanLoadAuthGuard,
+    CustomPreloadingStrategy
   ]
 })
 export class AppRoutingModule {
