@@ -23,6 +23,9 @@ export class CourseComponent implements OnInit {
   ngOnInit() {
     //extreu el resultat que ha retornat el CourseResolver
     this.course = this.route.snapshot.data["course"];
+
+    //obtenir el valor del paràmetre de consulta (query parameter) couponCode de l'URL actual.
+    this.couponCode = this.route.snapshot.queryParamMap.get("couponCode");
   }
 
   confirmExit() {

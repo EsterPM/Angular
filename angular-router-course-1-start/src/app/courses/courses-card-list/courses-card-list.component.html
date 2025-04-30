@@ -15,7 +15,8 @@
 
     <mat-card-actions class="course-actions">
 
-        <!--[routerLink]="[course.url]": defineix cap a quina ruta anar.-->
+        <!--routerLink defineix cap a quina ruta anar.-->
+        <!--queryParams afegir un paràmetre de consulta (couponCode) amb el valor 'NEW_YEAR' quan es fa una navegació mitjançant routerLink.-->
         <button  mat-raised-button color="primary"
             [routerLink]="[course.url]" [queryParams]="{couponCode: 'NEW_YEAR'}">
             VIEW COURSE
