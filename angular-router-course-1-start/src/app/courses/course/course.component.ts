@@ -24,6 +24,10 @@ export class CourseComponent implements OnInit {
     //extreu el resultat que ha retornat el CourseResolver
     this.course = this.route.snapshot.data["course"];
   }
+
+  confirmExit() {
+    return confirm(`Are you sure you want to exit ${this.course.description}?`)
+  }
 }
 
 
