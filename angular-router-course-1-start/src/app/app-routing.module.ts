@@ -3,6 +3,7 @@ import { Routes, RouterModule, PreloadAllModules, UrlSerializer } from '@angular
 import { LoginComponent } from './login/login.component';
 import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CanLoadAuthGuard } from './services/can-load-auth.guard';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
   {
     path: "courses",
     loadChildren: () => import('./courses/courses.module')
-      .then(m => m.CoursesModule)
+      .then(m => m.CoursesModule),
+    canMatch: [CanLoadAuthGuard]
   },
   {
     path: "login",
@@ -44,7 +46,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [
-
+    CanLoadAuthGuard
   ]
 })
 export class AppRoutingModule {
