@@ -25,7 +25,9 @@
 
     </div>
 
-    <a mat-button class="menu-item" *ngIf="auth.isLoggedIn$ | async">
+    <!--navegar a una ruta secundària sense canviar la ruta principal.-->
+    <a mat-button class="menu-item" *ngIf="auth.isLoggedIn$ | async"
+        [routerLink]="[{outlets: {chat: ['helpdesk-chat']}}]">
       <mat-icon>help</mat-icon>
     </a>
 
@@ -51,4 +53,10 @@
 
   <loading></loading>
 
+  <router-outlet></router-outlet> <!--No funcionaba abans perque faltaba aixo en el codi T_T-->
+
 </mat-sidenav-container>
+
+
+<!-- sortida secundària -->
+<router-outlet name="chat"></router-outlet>
