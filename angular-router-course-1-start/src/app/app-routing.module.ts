@@ -55,7 +55,10 @@ const routes: Routes = [
     RouterModule.forRoot(
       routes, {
         //ara fem servir el custom
-        preloadingStrategy: CustomPreloadingStrategy
+        preloadingStrategy: CustomPreloadingStrategy,
+        enableTracing: true, //Et mostra a la consola del navegador cada pas que fa Angular mentre navega entre rutes.
+        useHash: true //Utilitza rutes amb hash #
+        //per aplicacions que es serveixen des de servidors sense configuració de rutes
       })
   ],
   exports: [RouterModule],
