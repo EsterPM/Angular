@@ -14,10 +14,14 @@
   <!--contingut en pestanyes (tabs)-->
   <mat-tab-group>
     <mat-tab label="Beginners">
-
+      <!--El component courses-card-list rep l'Observable beginnerCourses$,
+      que es transforma amb l'async pipe per obtenir-ne el valor real.-->
+      <courses-card-list [courses]="beginnerCourses$ | async">
+      </courses-card-list>
     </mat-tab>
     <mat-tab label="Advanced">
-
+      <courses-card-list [courses]="advancedCourses$ | async">
+      </courses-card-list>
     </mat-tab>
   </mat-tab-group>
 
