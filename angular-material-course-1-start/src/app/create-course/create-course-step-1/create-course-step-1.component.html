@@ -62,4 +62,15 @@
   <mat-checkbox color="primary" formControlName="downloadsAllowed" [indeterminate]="true">
     Downloads allowed?
   </mat-checkbox>
+
+
+  <!--Text area-->
+  <mat-form-field appearance="outline">
+
+    <!--formControlName es posa aquí en vez de en el form field-->
+    <!--cdkTextareaAutosize = autoajustament de mida -->
+    <textarea matInput placeholder="Description" formControlName="longDescription" cdkTextareaAutosize
+      [cdkAutosizeMinRows]="2" [cdkAutosizeMaxRows]="5"> <!--ajustar l'alçada del textarea entre 2 i 5 files-->
+    </textarea>
+  </mat-form-field>
 </div>
