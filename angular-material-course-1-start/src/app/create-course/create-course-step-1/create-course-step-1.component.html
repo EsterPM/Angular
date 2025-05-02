@@ -37,7 +37,22 @@
 
       <mat-option value="INTERMEDIATE">Intermediate</mat-option>
       <mat-option value="ADVANCED">Advanced</mat-option>
-
     </mat-select>
   </mat-form-field>
+
+
+  <!--Data Picker-->
+  <!--Fa que el camp tingui un marc visible al voltant del camp d'entrada-->
+  <mat-form-field appearance="outline">
+    <input matInput formControlName="releasedAt"
+           placeholder="Release date" [matDatepicker]="releasedAtPicker"> <!--associa aquest input a un mat-datepicker-->
+
+    <!--Mostra la icona de calendari al final del camp d'entrada.-->
+    <mat-datepicker-toggle matSuffix [for]="releasedAtPicker">
+    </mat-datepicker-toggle>
+
+    <!--Defineix el component emergent del selector de dates.-->
+    <mat-datepicker #releasedAtPicker [dateClass]="dateClass"> <!--funció del ts-->
+    </mat-datepicker>
+</mat-form-field>
 </div>
