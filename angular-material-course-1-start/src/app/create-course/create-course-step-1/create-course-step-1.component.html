@@ -44,8 +44,8 @@
   <!--Data Picker-->
   <!--Fa que el camp tingui un marc visible al voltant del camp d'entrada-->
   <mat-form-field appearance="outline">
-    <input matInput formControlName="releasedAt"
-           placeholder="Release date" [matDatepicker]="releasedAtPicker"> <!--associa aquest input a un mat-datepicker-->
+    <input matInput formControlName="releasedAt" placeholder="Release date" [matDatepicker]="releasedAtPicker">
+    <!--associa aquest input a un mat-datepicker-->
 
     <!--Mostra la icona de calendari al final del camp d'entrada.-->
     <mat-datepicker-toggle matSuffix [for]="releasedAtPicker">
@@ -54,5 +54,12 @@
     <!--Defineix el component emergent del selector de dates.-->
     <mat-datepicker #releasedAtPicker [dateClass]="dateClass"> <!--funció del ts-->
     </mat-datepicker>
-</mat-form-field>
+  </mat-form-field>
+
+
+  <!--Checkbox-->
+  <!--indeterminate = fa que la casella aparegui en un estat intermedi (ni marcada ni desmarcada visualment). només visual-->
+  <mat-checkbox color="primary" formControlName="downloadsAllowed" [indeterminate]="true">
+    Downloads allowed?
+  </mat-checkbox>
 </div>
