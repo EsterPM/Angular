@@ -104,6 +104,9 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
     }
 
+    //Variable per la taula
+    displayedColumns = ['seqNo', "description", "duration"];
+
     ngOnInit() {
 
         this.course = this.route.snapshot.data["course"];

@@ -7,7 +7,29 @@
 </div>
 
 
+<table mat-table class="lessons-table mat-elevation-z8" [dataSource]="lessons"> <!--la llista de dades que s'utilitza per omplir la taula.-->
 
+  <!--defineix cada columna per separat.-->
+  <ng-container matColumnDef="seqNo">
+    <th mat-header-cell *matHeaderCellDef>#</th>
+    <td mat-cell *matCellDef="let lesson">{{lesson.seqNo}}</td>
+  </ng-container>
 
+  <!--mat-header-cell i mat-cell: defineixen les cel·les d'encapçalament i de contingut.-->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Description</th>
+    <td mat-cell *matCellDef="let lesson">{{lesson.description}}</td>
+  </ng-container>
 
+  <ng-container matColumnDef="duration">
+    <th mat-header-cell *matHeaderCellDef>Duration</th>
+    <td class="duration-cell" mat-cell *matCellDef="let lesson">{{lesson.duration}}</td>
+  </ng-container>
 
+  <!--*matHeaderRowDef indica quines columnes mostrar a l'encapçalament.-->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+  <!--indica les files del contingut.-->
+  <tr mat-row *matRowDef="let lesson;columns:displayedColumns"></tr>
+
+</table>
