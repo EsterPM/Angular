@@ -15,9 +15,29 @@
     </mat-error>
   </mat-form-field>
 
+
   <!--Radio button-->
   <mat-radio-group class="course-type" formControlName="courseType">
     <mat-radio-button [disabled]="true" value="free">Free</mat-radio-button>
     <mat-radio-button value="premium">Premium</mat-radio-button>
   </mat-radio-group>
+
+
+  <!--Select box-->
+  <mat-form-field>
+    <mat-select formControlName="category" placeholder="Select category"> <!--multiple per seleccionar + d'una opcio-->
+      <mat-option>None</mat-option>
+
+      <!--agrupa visualment opcions sota el títol Beginners.-->
+      <mat-optgroup label="Beginners">
+        <mat-option value="newprogramming">New To Programming</mat-option>
+        <mat-option value="newjavascript">New To Javascript</mat-option>
+        <mat-option value="newangular">New To Angular</mat-option>
+      </mat-optgroup>
+
+      <mat-option value="INTERMEDIATE">Intermediate</mat-option>
+      <mat-option value="ADVANCED">Advanced</mat-option>
+
+    </mat-select>
+  </mat-form-field>
 </div>
