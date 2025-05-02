@@ -5,7 +5,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Course } from "../model/course";
 import { CoursesService } from "../services/courses.service";
-import { debounceTime, distinctUntilChanged, startWith, tap, delay, catchError } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, tap, delay, catchError, finalize } from 'rxjs/operators';
 import { merge, fromEvent, throwError } from "rxjs";
 import { Lesson } from '../model/lesson';
 
@@ -20,7 +20,9 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
   course: Course;
 
-  lessons: Lesson[];
+  lessons: Lesson[] = [];
+
+  loading = false;
 
   constructor(private route: ActivatedRoute,
     private coursesService: CoursesService) {
@@ -39,6 +41,9 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
   //carrega del backend les lliçons d'un curs concret
   loadLessonsPage() {
+    //iniciar el spin de carga
+    this.loading = true;
+
     //obtenir les lliçons del curs amb ID, ordenades ascendentment, començant per la pàgina 0 i amb màxim 3 resultats.
     this.coursesService.findLessons(this.course.id, "asc", 0, 3)
       .pipe(
@@ -48,7 +53,9 @@ export class CourseComponent implements OnInit, AfterViewInit {
           console.log("Error loading lessons", err);
           alert("Error loading lessons");
           return throwError(err);
-        })
+        }),
+        //Finalitza el spin de carga
+        finalize(() => this.loading = false)
       )
       .subscribe();
   }
