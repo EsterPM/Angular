@@ -5,7 +5,15 @@
 
     <h2 class="title">All Courses</h2>
 
-    <button mat-mini-fab routerLink="/add-new-course">
+    <!--matTooltip: el text del tooltip.
+    matTooltipPosition: col·loca el tooltip a sobre del botó.
+    [matTooltipShowDelay: triga 1000ms (1 segon) a mostrar-se.
+    hide per ocultar en 2s-->
+    <button mat-mini-fab routerLink="/add-new-course"
+            matTooltip="Create a course" matTooltipPosition="above"
+            [matTooltipShowDelay]="1000"
+            [matTooltipHideDelay]="2000"
+            [matTooltipDisabled]="true"> <!--desactiva el tooltip-->
       <mat-icon class="add-course-btn">add</mat-icon>
     </button>
 
