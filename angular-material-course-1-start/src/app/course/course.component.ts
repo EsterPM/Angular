@@ -39,6 +39,8 @@ export class CourseComponent implements OnInit, AfterViewInit {
   //Variable per la taula
   displayedColumns = ['seqNo', "description", "duration"];
 
+  expandedLesson: Lesson
+
   ngOnInit() {
 
     this.course = this.route.snapshot.data["course"];
@@ -54,7 +56,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
     //obtenir les lliçons del curs amb ID, ordenades ascendentment, començant per la pàgina 0 i amb màxim 3 resultats.
     this.coursesService.findLessons(this.course.id, this.sort?.direction ?? "asc",
       this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 3,
-      this.sort.active ?? "seqNo")
+      this.sort?.active ?? "seqNo")
       .pipe(
         //assigna les lliçons retornades a this.lessons
         tap(lessons => this.lessons = lessons),
@@ -67,6 +69,16 @@ export class CourseComponent implements OnInit, AfterViewInit {
         finalize(() => this.loading = false)
       )
       .subscribe();
+  }
+
+  //expandir o contraure una lliçó específica
+  onToggleLesson(lesson: Lesson) {
+    if (lesson == this.expandedLesson) {
+      this.expandedLesson = null; // Si ja està expandida, la contrau
+    }
+    else {
+      this.expandedLesson = lesson; // Si no, l'expandeix
+    }
   }
 
   //per escoltar els canvis de pàgina
