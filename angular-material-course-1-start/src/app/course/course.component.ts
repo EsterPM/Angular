@@ -28,6 +28,9 @@ export class CourseComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
 
+  @ViewChild(MatSort)
+  sort: MatSort
+
   constructor(private route: ActivatedRoute,
     private coursesService: CoursesService) {
 
@@ -49,8 +52,9 @@ export class CourseComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     //obtenir les lliçons del curs amb ID, ordenades ascendentment, començant per la pàgina 0 i amb màxim 3 resultats.
-    this.coursesService.findLessons(this.course.id, "asc",
-      this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 3)
+    this.coursesService.findLessons(this.course.id, this.sort?.direction ?? "asc",
+      this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 3,
+      this.sort.active ?? "seqNo")
       .pipe(
         //assigna les lliçons retornades a this.lessons
         tap(lessons => this.lessons = lessons),
@@ -67,11 +71,15 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
   //per escoltar els canvis de pàgina
   ngAfterViewInit() {
-    this.paginator.page
+
+    //Resetejar la paginació
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+    //Combinar els dos
+    merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         tap(() => this.loadLessonsPage())
       )
       .subscribe()
   }
-
 }
