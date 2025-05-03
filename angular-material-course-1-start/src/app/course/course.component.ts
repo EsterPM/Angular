@@ -1,3 +1,4 @@
+import { Lesson } from './../model/lesson';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { MatPaginator } from "@angular/material/paginator";
@@ -7,7 +8,7 @@ import { Course } from "../model/course";
 import { CoursesService } from "../services/courses.service";
 import { debounceTime, distinctUntilChanged, startWith, tap, delay, catchError, finalize } from 'rxjs/operators';
 import { merge, fromEvent, throwError } from "rxjs";
-import { Lesson } from '../model/lesson';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -31,13 +32,16 @@ export class CourseComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort)
   sort: MatSort
 
+  //crear una instància de la classe SelectionModel per gestionar la selecció d'elements de tipus Lesson dins d'una taula
+  selection = new SelectionModel<Lesson>(true, []);
+
   constructor(private route: ActivatedRoute,
     private coursesService: CoursesService) {
 
   }
 
   //Variable per la taula
-  displayedColumns = ['seqNo', "description", "duration"];
+  displayedColumns = ['select', 'seqNo', "description", "duration"];
 
   expandedLesson: Lesson
 
@@ -46,6 +50,13 @@ export class CourseComponent implements OnInit, AfterViewInit {
     this.course = this.route.snapshot.data["course"];
 
     this.loadLessonsPage();
+  }
+
+
+  //Afegeix o elimina la lliçó de la selecció i mostra les seleccionades per consola
+  onLessonToggled(lesson:Lesson) {
+    this.selection.toggle(lesson);
+    console.log(this.selection.selected);
   }
 
   //carrega del backend les lliçons d'un curs concret
@@ -93,5 +104,22 @@ export class CourseComponent implements OnInit, AfterViewInit {
         tap(() => this.loadLessonsPage())
       )
       .subscribe()
+  }
+
+  //Retorna true si totes les lliçons estan seleccionades.
+  isAllSelected() {
+    return this.selection.selected?.length == this.lessons?.length;
+  }
+
+
+  //Si totes estan seleccionades, les desselecciona totes.
+  toggleAll() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    }
+    //Si no, selecciona totes les lliçons usant l'operador d'expansió (...) per passar-les com arguments.
+    else {
+      this.selection.select(...this.lessons);
+    }
   }
 }

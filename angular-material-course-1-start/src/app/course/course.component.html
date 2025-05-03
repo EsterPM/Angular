@@ -12,7 +12,26 @@
   <!--multitemp... per poder expandir files-->
   <table mat-table class="lessons-table mat-elevation-z8" matSort matSortDisableClear matSortActive="seqNo"
     matSortDirection="asc" [dataSource]="lessons" multiTemplateDataRows>
-    <!--la llista de dades que s'utilitza per omplir la taula.-->
+
+    <!--columna de selecció per checkbox-->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <!--Està marcat només si hi ha selecció (selection.hasValue()) i totes les lliçons estan seleccionades-->
+        <!--Mostra l'estat intermedi (ratlleta) si algunes estan seleccionades però no totes.-->
+        <mat-checkbox [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          (change)="toggleAll()"> <!--Quan l'usuari fa clic, crida toggleAll() per seleccionar o desseleccionar tot.-->
+        </mat-checkbox>
+      </th>
+
+      <!--stop = Evita que el clic al checkbox faci també expandir o col·lapsar la fila-->
+      <td mat-cell *matCellDef="let lesson" (click)="$event.stopPropagation()">
+        <!--Quan es canvia el checkbox d'una fila, es crida onLessonToggled(lesson) per afegir o treure aquesta lliçó de la selecció.-->
+        <mat-checkbox (change)="onLessonToggled(lesson)" [checked]="selection.isSelected(lesson)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
 
     <!--defineix cada columna per separat.-->
     <ng-container matColumnDef="seqNo">
@@ -42,12 +61,11 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
     <!--indica les files del contingut.-->
-    <tr mat-row *matRowDef="let lesson;columns:displayedColumns"
-        (click)="onToggleLesson(lesson)"></tr> <!--Si fas clic a la fila, s'executa onToggleLesson(lesson)-->
+    <tr mat-row *matRowDef="let lesson;columns:displayedColumns" (click)="onToggleLesson(lesson)"></tr>
+    <!--Si fas clic a la fila, s'executa onToggleLesson(lesson)-->
 
     <!--Aquesta fila sempre es mostra per cada lliçó, però el contingut només és visible si lesson === expandedLesson.-->
-    <tr mat-row *matRowDef="let lesson;columns:['expandedDetail']"
-        [class.collapsed-detail]="lesson != expandedLesson">
+    <tr mat-row *matRowDef="let lesson;columns:['expandedDetail']" [class.collapsed-detail]="lesson != expandedLesson">
     </tr>
 
   </table>
