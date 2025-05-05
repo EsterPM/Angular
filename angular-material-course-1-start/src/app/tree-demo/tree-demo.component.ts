@@ -59,12 +59,23 @@ const TREE_DATA: CourseNode[] = [
 })
 export class TreeDemoComponent implements OnInit {
 
+  //conté les dades que es mostraran
+  nestedDataSource = new MatTreeNestedDataSource<CourseNode>();
+
+  //diu a l'arbre com trobar els fills d'un node. Ja no es fa servir
+  nestedTreeControl = new NestedTreeControl<CourseNode>(node => node.children);
+
 
   ngOnInit() {
-
-
+    //Assigna les dades jeràrquiques (TREE_DATA) a la font de dades quan es carrega el component.
+    this.nestedDataSource.data = TREE_DATA;
   }
 
+
+  //serveix per decidir si un node és pare i per tant ha de mostrar la fletxa d'expansió o no.
+  hasNestedChild(index: number, node:CourseNode) {
+    return node?.children?.length > 0;
+  }
 }
 
 
