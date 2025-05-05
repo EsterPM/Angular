@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {Lesson} from '../model/lesson';
+import { Component } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Lesson } from '../model/lesson';
 
 
 @Component({
-    selector: 'drag-drop-example',
-    templateUrl: "drag-drop.component.html",
-    styleUrls: ["drag-drop.component.scss"],
-    standalone: false
+  selector: 'drag-drop-example',
+  templateUrl: "drag-drop.component.html",
+  styleUrls: ["drag-drop.component.scss"],
+  standalone: false
 })
 export class DragDropComponent {
 
@@ -91,4 +91,35 @@ export class DragDropComponent {
     }
   ];
 
+  //una segona llista per les lliçons arrastrades
+  done = [];
+
+
+  //es crida quan es fa un drag-and-drop entre dues llistes diferents
+  dropMultiList(event: CdkDragDrop<Lesson[]>) {
+
+    //Si l'element s'ha mogut dins la mateixa llista, simplement es reordena amb moveItemInArray
+    if (event.previousContainer == event.container) {
+      moveItemInArray(this.lessons, event.previousIndex, event.currentIndex);
+    }
+    //Si s'ha mogut entre dues llistes diferents, es fa amb transferArrayItem.
+    else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+
+
+  //reordenar dins la mateixa llista
+  drop(event: CdkDragDrop<Lesson[]>) {
+    console.log("previousIndex = ", event.previousIndex);
+    console.log("currentIndex = " + event.currentIndex);
+
+    //Mou l'element dins de this.lessons
+    moveItemInArray(this.lessons, event.previousIndex, event.currentIndex);
+  }
 }
