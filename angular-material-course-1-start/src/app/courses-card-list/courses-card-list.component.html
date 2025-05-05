@@ -1,5 +1,6 @@
 <!--Per fer responsive amb columnes-->
-<mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
+<!--afegeix una classe CSS (handset-portrait) quan estàs en mòbil vertical.-->
+<mat-grid-list [cols]="cols" [rowHeight]="rowHeight" [ngClass]="{'handset-portrait': handsetPortrait}">
 
   <mat-grid-tile *ngFor="let course of courses">
     <!--llista de targetes (<mat-card>-->
