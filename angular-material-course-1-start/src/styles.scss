@@ -3,6 +3,8 @@
 
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 
+@import "./mixins";
+@include responsive-dialogs();
 
 /*S'hauria de crear un arxiu d'estil apart*/
 .highlight-date {

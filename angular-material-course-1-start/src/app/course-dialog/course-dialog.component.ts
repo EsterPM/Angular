@@ -52,7 +52,7 @@ export function openEditCourseDialog(dialog: MatDialog, course: Course) {
   config.disableClose = true;
   config.autoFocus = true;
 
-  //permeten personalitzar l'estil.
+  //permeten personalitzar l'estil del dialeg en diferents pantallas.
   config.panelClass = "modal-panel";
   config.backdropClass = "backdrop-modal-panel";
 
