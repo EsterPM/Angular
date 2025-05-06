@@ -26,7 +26,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.reloadCourses();
+  }
 
+  reloadCourses() {
     //Es carrega tota la llista de cursos des del servei CoursesService
     const courses$ = this.coursesService.loadAllCourses()
       .pipe(
