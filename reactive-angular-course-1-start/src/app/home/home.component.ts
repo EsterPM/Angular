@@ -31,22 +31,23 @@ export class HomeComponent implements OnInit {
   }
 
   reloadCourses() {
-    //Iniciar el spinner de carga
-    this.loadingService.loadingOn();
 
     //Es carrega tota la llista de cursos des del servei CoursesService
     const courses$ = this.coursesService.loadAllCourses()
       .pipe(
-        map(courses => courses.sort(sortCoursesBySeqNo)), //ordenar els cursos amb la funció
-        finalize(() => this.loadingService.loadingOff()) //Finalitzar quan estigui carregat
+        map(courses => courses.sort(sortCoursesBySeqNo)) //ordenar els cursos amb la funció
       );
 
-    this.beginnerCourses$ = courses$
+    //Saber si carga o no auto
+    const loadCourses$ = this.loadingService.showLoaderUntilCompleted(courses$);
+
+    //Pasar l'observable loadCourses
+    this.beginnerCourses$ = loadCourses$
       .pipe(
         map(courses => courses.filter(course => course.category == "BEGINNER"))
       );
 
-    this.advancedCourses$ = courses$
+    this.advancedCourses$ = loadCourses$
       .pipe(
         map(courses => courses.filter(course => course.category == "ADVANCED"))
       );
