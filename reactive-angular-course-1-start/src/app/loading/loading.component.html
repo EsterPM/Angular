@@ -1,1 +1,4 @@
-
+<!--Quan el loadingService.loading$ indica que alguna operació està en curs (true), es mostra el mat-spinner. Quan acaba (false), el spinner desapareix.-->
+<div class="spinner-container" *ngIf="loadingService.loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
