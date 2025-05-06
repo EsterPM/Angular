@@ -21,6 +21,8 @@ export class CoursesService {
       .pipe(
         //s'agafa només el contingut de res.payload, que és l'array de cursos, i s'emet com a resultat de l'observable.
         map(res => res["payload"]),
+        //compartir els valors d'un observable entre múltiples subscripcions, sense repetir la petició HTTP
+        shareReplay()
       );
   }
 }
