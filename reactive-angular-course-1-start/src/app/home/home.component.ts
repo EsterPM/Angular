@@ -31,10 +31,14 @@ export class HomeComponent implements OnInit {
   }
 
   reloadCourses() {
+    //Iniciar el spinner de carga
+    this.loadingService.loadingOn();
+
     //Es carrega tota la llista de cursos des del servei CoursesService
     const courses$ = this.coursesService.loadAllCourses()
       .pipe(
-        map(courses => courses.sort(sortCoursesBySeqNo)) //ordenar els cursos amb la funció
+        map(courses => courses.sort(sortCoursesBySeqNo)), //ordenar els cursos amb la funció
+        finalize(() => this.loadingService.loadingOff()) //Finalitzar quan estigui carregat
       );
 
     this.beginnerCourses$ = courses$

@@ -6,20 +6,23 @@ import {concatMap, finalize, tap} from 'rxjs/operators';
 @Injectable()
 export class LoadingService {
 
-    loading$: Observable<boolean>;
+    //manté l'estat actual de la càrrega
+    private loadingSubject = new BehaviorSubject<boolean>(false);
+
+    //Es fa pública una versió observable només de lectura del subjecte.
+    loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
 
     showLoaderUntilCompleted<T>(obs$: Observable<T>): Observable<T> {
-       return undefined;
+      return undefined;
     }
 
     loadingOn() {
-
+        this.loadingSubject.next(true);
 
     }
 
     loadingOff() {
-
+        this.loadingSubject.next(false);
     }
-
 }
