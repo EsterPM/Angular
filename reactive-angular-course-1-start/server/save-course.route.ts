@@ -5,14 +5,14 @@ import {setTimeout} from 'timers';
 
 export function saveCourse(req: Request, res: Response) {
 
-//Per provar error en el dialeg
+/*
   console.log("ERROR saving course!");
   res.sendStatus(500);
   return;
+*/
 
 
-
-  /*  const id = req.params["id"],
+ const id = req.params["id"],
         changes = req.body;
 
     console.log("Saving course changes", id, JSON.stringify(changes));
@@ -31,7 +31,7 @@ export function saveCourse(req: Request, res: Response) {
         res.status(200).json(COURSES[id]);
 
     }, 2000);
-*/
+
 
 
 }
