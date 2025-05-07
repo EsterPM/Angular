@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
 
   //Eliminem coursesService perque farem servir el Store.
   constructor(
-      private coursesStore: CoursesStore) {
+    private coursesStore: CoursesStore) {
 
   }
 
@@ -34,11 +34,9 @@ export class HomeComponent implements OnInit {
   }
 
   reloadCourses() {
-
-    //Pasar l'observable loadCourses
     this.beginnerCourses$ = this.coursesStore.filterByCategory("BEGINNER");
 
     this.advancedCourses$ = this.coursesStore.filterByCategory("ADVANCE");
 
-}
+  }
 }
