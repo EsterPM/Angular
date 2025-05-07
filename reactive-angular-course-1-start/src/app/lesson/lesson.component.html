@@ -1,1 +1,12 @@
-<p>lesson works!</p>
+<div class="lesson-detail">
+
+  <h3>{{lesson.description}}</h3>
+
+  <h5>Duration: {{lesson.duration}}</h5>
+
+  <!-- Iframe que carrega el vídeo de YouTube relacionat amb la lliçó.
+       La URL s'assegura com a segura mitjançant el pipe personalitzat "safeUrl" -->
+  <iframe width="400" height="220" frameborder="0" allowfullscreen
+    [src]="('https://www.youtube.com/embed/' + lesson?.videoId) | safeUrl">
+  </iframe>
+</div>
