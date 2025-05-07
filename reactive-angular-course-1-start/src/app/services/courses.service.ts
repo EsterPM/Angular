@@ -32,4 +32,17 @@ export class CoursesService {
         shareReplay()
       );
   }
+
+  searchLessons(search: string): Observable<Lesson[]> {
+    return this.http.get<Lesson[]>('/api/lessons', {
+      params: {
+        filter: search, //Paràmetre de filtre per a la cerca
+        pageSize: "100" //Nombre màxim de resultats retornats
+      }
+    })
+      .pipe(
+        map(res => res["payload"]),
+        shareReplay()
+      );
+  }
 }
