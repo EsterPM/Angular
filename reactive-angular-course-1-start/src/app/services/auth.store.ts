@@ -23,21 +23,29 @@ export class AuthStore {
     this.isLoggedIn$ = this.user$.pipe(map(user => !!user));
     //l'invers
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map(loggedIn => !loggedIn));
+
+    //Si hi ha dades d'autenticació guardades al localStorage, es recuperen i es posa el subject
+    const user = localStorage.getItem(AUTH_DATA);
+    if(user) {
+      this.subject.next(JSON.parse(user));
+    }
   }
 
   login(email: string, password: string): Observable<User> {
     return this.http.post<User>("/api/login", { email, password })
-      //Quan s'obté resposta positiva, s'actualitza el subject amb l'usuari
+      //Quan s'obté resposta positiva, s'actualitza el subject amb l'usuari i es guarda al localStorage
       .pipe(
         tap(user => {
           this.subject.next(user);
+          localStorage.setItem(AUTH_DATA, JSON.stringify(user));
         }),
         shareReplay()
       );
   }
 
-  //es posa el subject a null
+  //es posa el subject a null i esborra les dades del localStorage
   logout() {
     this.subject.next(null);
+    localStorage.removeItem(AUTH_DATA);
   }
 }
