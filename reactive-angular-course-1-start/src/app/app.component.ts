@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { LoadingService } from './loading/loading.service';
+import { MessagesService } from './messages/messages.service';
 
 
 
@@ -8,7 +9,8 @@ import { LoadingService } from './loading/loading.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     providers: [
-      LoadingService //Tiene que estar importado en el principal
+      LoadingService, //Tiene que estar importado en el principal
+      MessagesService
     ],
     standalone: false
 })
