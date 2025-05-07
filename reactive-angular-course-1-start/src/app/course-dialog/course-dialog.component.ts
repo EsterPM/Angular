@@ -1,3 +1,4 @@
+import { MessagesService } from './../../../../angular-router-course-1-start/src/app/shared/messages/messages.service';
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Course } from "../model/course";
@@ -13,7 +14,8 @@ import { LoadingService } from '../loading/loading.service';
   templateUrl: './course-dialog.component.html',
   styleUrls: ['./course-dialog.component.css'],
   providers: [
-    LoadingService //Perque heredi a fills
+    LoadingService, //S'afageixen perque dialog está fora de la linea dels altres
+    MessagesService
   ],
   standalone: false
 })
@@ -28,7 +30,8 @@ export class CourseDialogComponent implements AfterViewInit {
     private dialogRef: MatDialogRef<CourseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) course: Course,
     private coursesService: CoursesService,
-    private loadingService: LoadingService) {
+    private loadingService: LoadingService,
+    private messagesService: MessagesService) {
 
     this.course = course;
 
@@ -49,7 +52,15 @@ export class CourseDialogComponent implements AfterViewInit {
     const changes = this.form.value;
 
     //Observable que fa la petició HTTP per desar els canvis.
-    const saveCourse$ = this.coursesService.saveCourse(this.course.id, changes);
+    const saveCourse$ = this.coursesService.saveCourse(this.course.id, changes)
+      .pipe(
+        catchError(err => {
+          const message = "Could not save course";
+          console.log(message, err);
+          this.messagesService.showErrors(message);
+          return throwError(err);
+        })
+      );
 
     //Mostra el spinner mentre s'està guardant, i l'amaga quan acaba.
     this.loadingService.showLoaderUntilCompleted(saveCourse$)
