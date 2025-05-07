@@ -44,6 +44,37 @@ export class CoursesStore {
   }
 
 
+  saveCourse(courseId: string, changes: Partial<Course>): Observable<any> {
+    //S'obté la llista actual de cursos des del BehaviorSubject
+    const courses = this.subject.getValue();
+    //Es busca l'índex del curs que coincideix amb l'ID passat per paràmetre
+    const index = courses.findIndex(course => course.id == courseId);
+
+    //Es crea un nou objecte de curs amb els canvis aplicats
+    const newCourse: Course = {
+      ...courses[index],
+      ...changes
+    };
+
+    const newCourses: Course[] = courses.slice(0);
+    newCourses[index] = newCourse;
+    //S'emet la nova llista de cursos amb el curs actualitzat
+    this.subject.next(newCourses);
+
+    return this.http.put(`/api/courses/${courseId}`, changes)
+      .pipe(
+        catchError(err => {
+          const message = "Could not save course";
+          console.log(message, err);
+          this.messages.showErrors(message);
+          return throwError(err);
+        }),
+        //evita que la petició es repeteixi en múltiples subscripcions
+        shareReplay()
+      );
+  }
+
+
   filterByCategory(category: string): Observable<Course[]> {
     return this.courses$
       .pipe(
