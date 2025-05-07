@@ -12,6 +12,11 @@ export class LoadingService {
   //Es fa pública una versió observable només de lectura del subjecte.
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
+  //Per veure en consola on s'aplica
+  constructor() {
+    console.log("Loading service created ...");
+  }
+
   //mostrar automàticament el spinner quan comença una operació (obs$) i amagar-lo automàticament quan acaba (o falla).
   showLoaderUntilCompleted<T>(obs$: Observable<T>): Observable<T> {
     return of(null)

@@ -8,7 +8,7 @@ import { LoadingService } from './loading/loading.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     providers: [
-      LoadingService
+      LoadingService //Tiene que estar importado en el principal
     ],
     standalone: false
 })
