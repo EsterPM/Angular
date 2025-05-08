@@ -1,5 +1,5 @@
 import { MessagesService } from './../../../../angular-router-course-1-start/src/app/shared/messages/messages.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Course, sortCoursesBySeqNo } from '../model/course';
 import { interval, noop, Observable, of, throwError, timer } from 'rxjs';
 import { catchError, delay, delayWhen, filter, finalize, map, retryWhen, shareReplay, tap } from 'rxjs/operators';
@@ -15,6 +15,11 @@ import { CoursesStore } from '../services/courses.store';
   selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush, //estratègia de detecció de canvis d'Angular que optimitza el rendiment del component.
+  //comprova els canvis al component: Quan una entrada (@Input) canvia per referència.
+  //Quan es produeix un esdeveniment dins del component (clic, formulari, etc.).
+  //Quan un observable emet un valor i es mostra via async.
+
   standalone: false
 })
 export class HomeComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../model/course';
 import {
@@ -26,6 +26,7 @@ interface CourseData {
   selector: 'course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false
 })
 export class CourseComponent implements OnInit {
