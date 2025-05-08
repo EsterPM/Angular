@@ -41,9 +41,17 @@ export class CourseComponent implements OnInit {
   ngOnInit() {
     const courseId = parseInt(this.route.snapshot.paramMap.get("courseId"));
 
-    const course$ = this.coursesService.loadCourseById(courseId);
+    //Observable que carrega un curs pel seu ID, començant amb un valor null mentre es carrega
+    const course$ = this.coursesService.loadCourseById(courseId)
+      .pipe(
+        startWith(null)
+      );
 
-    const lessons$ = this.coursesService.loadAllCourseLessons(courseId);
+    //Observable que carrega totes les lliçons d'un curs, començant amb un array buit
+    const lessons$ = this.coursesService.loadAllCourseLessons(courseId)
+      .pipe(
+        startWith([])
+      );
 
     //Combina els dos observables: course$ i lessons$
     this.data$ = combineLatest([course$, lessons$])
