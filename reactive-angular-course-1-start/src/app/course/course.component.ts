@@ -41,6 +41,8 @@ export class CourseComponent implements OnInit {
 
     const course$ = this.coursesService.loadCourseById(courseId);
 
+    const lessons$ = this.coursesService.loadAllCourseLessons(courseId);
+
 
   }
 
