@@ -23,4 +23,27 @@ export class CoursesService {
     const response = await firstValueFrom(courses$);
     return response.courses;
   }
+
+  //Accepta un objecte parcial (Partial<Course>) perquè potser no tens tots els camps (p. ex. l'id el genera el servidor).
+  async createCourse(course: Partial<Course>): Promise<Course> {
+    const course$ =
+      this.http.post<Course>(`${this.env.apiRoot}/courses`, course)
+    return firstValueFrom(course$);
+  }
+
+  //Passes l'id del curs i només els camps modificats (changes).
+  async saveCourse(courseId: string,
+    changes: Partial<Course>): Promise<Course> {
+    const course$ =
+      this.http.put<Course>(`${this.env.apiRoot}/courses/${courseId}`,
+        changes)
+    return firstValueFrom(course$);
+  }
+
+  //Retorna la Promise de la resposta (que podria ser buida).
+  async deleteCourse(courseId: string) {
+    const delete$ =
+      this.http.delete(`${this.env.apiRoot}/courses/${courseId}`);
+    return firstValueFrom(delete$);
+  }
 }
