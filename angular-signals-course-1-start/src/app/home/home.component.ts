@@ -22,19 +22,40 @@ import { toObservable, toSignal, outputToObservable, outputFromObservable } from
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  courses = signal<Course[]>([]);
+  //signal privat (#)
+  #courses = signal<Course[]>([]);
 
+  //Injecta el servei que tu mateix has creat, que carrega els cursos des d'una API.
   coursesService = inject(CoursesService);
 
+  //Dos signals derivats que es recalculen automàticament quan canvia #courses.
+  beginnerCourses = computed(() => {
+    const courses = this.#courses();
+    return courses.filter(course =>
+      course.category === "BEGINNER")
+  });
+
+  advancedCourses = computed(() => {
+    const courses = this.#courses();
+    return courses.filter(course =>
+      course.category === "ADVANCED")
+  });
+
   constructor() {
+    effect(() => {
+      console.log(`Beginner courses: `, this.beginnerCourses())
+      console.log(`Advanced courses: `, this.advancedCourses())
+    });
+
     this.loadCourses()
-      .then(() => console.log(`All courses loaded:`, this.courses()));
+      .then(() => console.log(`All courses loaded:`, this.#courses())); //Un cop carregats, els posa dins el signal #courses
   }
 
+  //Assigna les dades al signal, cosa que activa automàticament els computed() i effect()
   async loadCourses() {
     try {
       const courses = await this.coursesService.loadAllCourses();
-      this.courses.set(courses);
+      this.#courses.set(courses);
     }
     catch (err) {
       alert(`Error loading courses!`);
