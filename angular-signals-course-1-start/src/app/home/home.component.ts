@@ -20,11 +20,11 @@ import {toObservable, toSignal, outputToObservable, outputFromObservable} from "
 })
 export class HomeComponent {
 
-  //Un signal és una forma reactiva de gestionar l'estat dins del component.
-  counter = signal(0);
+  //Només de lectura, no es pot modificar
+  counter = signal(0).asReadonly();
 
-  //S'actualitza amb .set
+  //Una altre forma d'actualitzar
   increment() {
-    this.counter.set(this.counter() + 1);
+    //this.counter.update(counter => counter + 1);
   }
 }
