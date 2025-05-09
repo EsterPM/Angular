@@ -25,17 +25,14 @@ type Counter = {
 })
 export class HomeComponent {
 
-  //Objecte amb signal
-  counter = signal<Counter>({
-    value: 100
-  });
+  //Array
+  values = signal<number[]>([0])
 
-  //copia de l'objecte anterior amb ...counter i després li canvies només la propietat value sumant-li 1.
-  increment() {
-    this.counter.update(counter => ({
-      ...counter,
-      value: counter.value + 1
-    }));
+  //crea un nou array (important perquè els signals detectin el canvi).
+  append() {
+    this.values.update(values => ([
+      ...values,
+      values[values.length - 1] + 1 //agafa l'últim element i li suma 1.
+    ]));
   }
-  //Això és important perquè els signals detecten els canvis per referència: si modifiquessis directament counter.value++, Angular no veuria el canvi
 }
