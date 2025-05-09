@@ -8,6 +8,11 @@ import {MessagesService} from "../messages/messages.service";
 import {catchError, from, throwError} from "rxjs";
 import {toObservable, toSignal, outputToObservable, outputFromObservable} from "@angular/core/rxjs-interop";
 
+//Tipo del objecte
+type Counter = {
+  value: number
+};
+
 @Component({
     selector: 'home',
     imports: [
@@ -20,11 +25,17 @@ import {toObservable, toSignal, outputToObservable, outputFromObservable} from "
 })
 export class HomeComponent {
 
-  //Només de lectura, no es pot modificar
-  counter = signal(0).asReadonly();
+  //Objecte amb signal
+  counter = signal<Counter>({
+    value: 100
+  });
 
-  //Una altre forma d'actualitzar
+  //copia de l'objecte anterior amb ...counter i després li canvies només la propietat value sumant-li 1.
   increment() {
-    //this.counter.update(counter => counter + 1);
+    this.counter.update(counter => ({
+      ...counter,
+      value: counter.value + 1
+    }));
   }
+  //Això és important perquè els signals detecten els canvis per referència: si modifiquessis directament counter.value++, Angular no veuria el canvi
 }
