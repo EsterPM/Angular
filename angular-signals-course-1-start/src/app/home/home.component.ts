@@ -1,4 +1,5 @@
-import { afterNextRender, Component, computed, effect, inject, Injector, signal } from '@angular/core';
+import { timeout } from 'rxjs/operators';
+import { afterNextRender, Component, computed, effect, EffectRef, inject, Injector, signal } from '@angular/core';
 import { CoursesService } from "../services/courses.service";
 import { Course, sortCoursesBySeqNo } from "../models/course.model";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
@@ -27,31 +28,39 @@ export class HomeComponent {
 
   counter = signal(0);
 
-  //sistema d'injecció de dependències d'Angular
-  injector = inject(Injector);
+  //referència a l'effect(), que et permet destruir-lo manualment més endavant.
+  effectRef: EffectRef | null = null;
+
 
   constructor() {
 
-    //Fa que el codi que hi ha dins s'executi després de la primera renderització del component.
-    afterNextRender(() => {
-      //Permet vincular l'effect al cicle de vida del component.
-      //Si el component es destrueix, l'efecte també s'elimina automàticament.
-      effect(() => {
-        console.log(`counter value: ${this.counter()}`);
-      },
-      {
-        injector:this.injector
+    this.effectRef = effect((onCleanup) => {
+      const counter = this.counter();
+      //Espera 1 segon abans de fer un console.log
+      const timeout = setTimeout(() => {
+        console.log(`counter value: ${counter}`);
+      }, 1000)
+
+      //S'executa abans que aquest effect() es torni a executar de nou.
+      //També s'executa quan el effect() es destrueix amb .destroy().
+      onCleanup(() => {
+        console.log("Callin clean up");
+        clearTimeout(timeout);
       })
     })
   }
+
 
   //Incrementa el counter en 1.
   increment() {
     this.counter.update(val => val + 1);
   }
+
+  //Destrueix completament l'effect(), El counter() pot canviar, però l'effect() ja no reaccionarà.
+  cleanup() {
+    this.effectRef?.destroy();
+  }
 }
 
 
-/*Sense injector, l'effect() no estaria vinculat al component,
-i podria quedar-se actiu fins i tot després que el component hagi estat destruït,
-generant fuites de memòria. Amb injector, Angular gestiona la subscripció per tu.*/
+//Això és per temporitzadors, intervals, subscripcions, etc.
