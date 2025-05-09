@@ -27,26 +27,18 @@ export class HomeComponent {
 
   counter = signal(0);
 
-  //és un signal derivat de counter.
-  //Cada vegada que counter canvia, aquest computed es recalcula automàticament.
-  tenXCounter = computed(() => {
-    const val = this.counter();
-    return val * 10;
-  })
-
-  //computed, que depèn del primer (tenXCounter).
-  //Això demostra que els computed poden encadenar-se i Angular resoldrà les dependències automàticament.
-  hundredXCounter = computed(() => {
-    const val = this.tenXCounter();
-    return val * 10;
-  })
+  constructor() {
+    //executa una funció cada vegada que algun signal utilitzat dins seu canvia.
+    effect(() => {
+      console.log(`counter value: ${this.counter()}`);
+    })
+  }
 
   //Incrementa el counter en 1.
-  //Això farà que tenXCounter i hundredXCounter es recalculin automàticament gràcies al sistema reactiu de signals.
   increment() {
     this.counter.update(val => val + 1);
   }
 }
 
 
-//computed() és útil per valors derivats que es recalculen automàticament en funció d'altres signals.
+//per: console.log, peticions HTTP, actualitzar el DOM fora d'Angular, etc.
