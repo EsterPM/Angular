@@ -13,4 +13,6 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class CoursesCardListComponent {
 
+  //És com un @Input(), però reactiu (és un Signal).
+  courses = input.required<Course[]>(); //li dius que el component ha de rebre una llista de cursos.
 }
