@@ -7,6 +7,7 @@ import {LoadingIndicatorComponent} from "../loading/loading.component";
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {CourseCategoryComboboxComponent} from "../course-category-combobox/course-category-combobox.component";
 import {CourseCategory} from "../models/course-category.model";
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'edit-course-dialog',
@@ -20,6 +21,27 @@ import {CourseCategory} from "../models/course-category.model";
   styleUrl: './edit-course-dialog.component.scss'
 })
 export class EditCourseDialogComponent {
+  //Inyectes MatDialogRef per controlar el diàleg (tancar-lo, passar resultats…).
+  dialogRef = inject(MatDialogRef);
 
+  onClose() {
+    this.dialogRef.close();
+  }
 
+}
+
+export async function openEditCourseDialog(
+  dialog: MatDialog,
+  data: EditCourseDialogData) {
+  const config = new MatDialogConfig();
+  config.disableClose = true; //l'usuari no pot tancar-lo fent clic fora.
+  config.autoFocus = true; //el focus es posa automàticament al primer input.
+  config.width  = "400px";
+  config.data = data; //passem la informació que necessitem dins el diàleg.
+
+  //Obres el diàleg i esperes a que es tanqui (afterClosed()).
+  const close$ = dialog.open(EditCourseDialogComponent,config)
+    .afterClosed();
+
+  return firstValueFrom(close$);
 }
