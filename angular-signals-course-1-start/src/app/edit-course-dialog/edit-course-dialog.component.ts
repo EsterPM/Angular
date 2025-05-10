@@ -38,6 +38,8 @@ export class EditCourseDialogComponent {
     iconUrl: ['']
   });
 
+  courseService = inject(CoursesService);
+
   //Al construir el component, emplenes el formulari amb les dades del curs que has passat com a entrada.
   constructor() {
     this.form.patchValue({
@@ -50,6 +52,28 @@ export class EditCourseDialogComponent {
 
   onClose() {
     this.dialogRef.close();
+  }
+
+  //Obtenim el contingut actual del formulari i l'assignem com un objecte parcial de tipus Course (perquè pot no tenir tots els camps).
+  async onSave() {
+    const courseProps =
+      this.form.value as Partial<Course>;
+    //Si el mode és "update", cridem a la funció que guarda el curs amb l'id del curs original i els canvis.
+    if (this.data?.mode === "update") {
+      await this.saveCourse(this.data?.course!.id, courseProps);
+    }
+  }
+
+  async saveCourse(courseId:string, changes: Partial<Course>) {
+    try {
+      const updatedCourse =
+        await this.courseService.saveCourse(courseId, changes);
+      this.dialogRef.close(updatedCourse); //tanques el diàleg i retornes el curs actualitzat al component pare (CoursesCardListComponent
+    }
+    catch (err) {
+      console.error(err);
+      alert(`Failed to save the course.`);
+    }
   }
 
 }
