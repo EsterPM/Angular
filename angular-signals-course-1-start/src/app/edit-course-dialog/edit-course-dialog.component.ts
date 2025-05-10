@@ -24,6 +24,30 @@ export class EditCourseDialogComponent {
   //Inyectes MatDialogRef per controlar el diàleg (tancar-lo, passar resultats…).
   dialogRef = inject(MatDialogRef);
 
+  //Injectes les dades que has passat al obrir el diàleg
+  data: EditCourseDialogData = inject(MAT_DIALOG_DATA);
+
+  //Injectes FormBuilder per poder crear el formulari de manera més senzilla.
+  fb = inject(FormBuilder);
+
+  //formulari reactiu
+  form = this.fb.group({
+    title: [''],
+    longDescription: [''],
+    category: [''],
+    iconUrl: ['']
+  });
+
+  //Al construir el component, emplenes el formulari amb les dades del curs que has passat com a entrada.
+  constructor() {
+    this.form.patchValue({
+      title: this.data?.course?.title,
+      longDescription: this.data?.course?.longDescription,
+      category: this.data?.course?.category,
+      iconUrl: this.data?.course?.iconUrl
+    });
+  }
+
   onClose() {
     this.dialogRef.close();
   }
