@@ -62,6 +62,22 @@ export class EditCourseDialogComponent {
     if (this.data?.mode === "update") {
       await this.saveCourse(this.data?.course!.id, courseProps);
     }
+    //Si el mode és "create", cridem a createCourse, passant només les dades del formulari
+    else if (this.data?.mode === "create") {
+      await this.createCourse(courseProps);
+    }
+  }
+
+  async createCourse(course: Partial<Course>) {
+    try {
+      const newCourse = await this.courseService.createCourse(course);
+      this.dialogRef.close(newCourse); //tanquem el diàleg (dialogRef.close) i li passem el nou curs com a resultat.
+    }
+    catch (err) {
+      console.error(err);
+      alert(`Error creating the course.`)
+    }
+
   }
 
   async saveCourse(courseId:string, changes: Partial<Course>) {

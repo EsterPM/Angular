@@ -9,6 +9,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MessagesService } from "../messages/messages.service";
 import { catchError, from, throwError } from "rxjs";
 import { toObservable, toSignal, outputToObservable, outputFromObservable } from "@angular/core/rxjs-interop";
+import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class HomeComponent {
 
   //Injecta el servei que tu mateix has creat, que carrega els cursos des d'una API.
   coursesService = inject(CoursesService);
+
+  dialog = inject(MatDialog);
 
   //Dos signals derivats que es recalculen automàticament quan canvia #courses.
   beginnerCourses = computed(() => {
@@ -85,6 +88,28 @@ export class HomeComponent {
       console.error(err)
       alert(`Error deleting course.`)
     }
+  }
+
+  //mostrar un formulari per crear un nou curs, i si es crea correctament, l'afegeix a la llista de cursos existents.
+  async onAddCourse() {
+    const newCourse = await openEditCourseDialog(
+      this.dialog,
+      {
+        mode: "create",
+        title: "Create New Course"
+      }
+    )
+    //Si l'usuari tanca el formulari sense guardar, newCourse serà falsy (null o undefined).
+    if (!newCourse) {
+      return;
+    }
+    //Creem una nova llista de cursos, copiant els existents (...this.#courses()) i afegint el nou curs al final.
+    const newCourses = [
+      ...this.#courses(),
+      newCourse
+    ];
+    //actualitzem el signal reactiu #courses amb la nova llista.
+    this.#courses.set(newCourses);
   }
 
 }
