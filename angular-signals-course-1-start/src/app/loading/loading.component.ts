@@ -10,6 +10,8 @@ import {LoadingService} from "./loading.service";
 })
 export class LoadingIndicatorComponent {
 
+  loadingService = inject(LoadingService);
 
-
+  //El component estarà connectat al signal i s'actualitzarà automàticament quan el valor del senyal canviï.
+  loading = this.loadingService.loading;
 }
