@@ -44,6 +44,8 @@ export class HomeComponent {
       course.category === "ADVANCED")
   });
 
+  messageService = inject(MessagesService);
+
   constructor() {
     effect(() => {
       console.log(`Beginner courses: `, this.beginnerCourses())
@@ -61,7 +63,10 @@ export class HomeComponent {
       this.#courses.set(courses.sort(sortCoursesBySeqNo)); //ordenar els cursos abans de guardar-los en el signal reactiu.
     }
     catch (err) {
-      alert(`Error loading courses!`);
+      this.messageService.showMessage(
+        `Error loading courses!`,
+        "error"
+      );
       console.error(err);
     }
   }
