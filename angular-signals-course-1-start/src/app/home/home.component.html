@@ -9,13 +9,13 @@
   <mat-tab-group>
 
     <mat-tab label="Beginners">
-      <!--passant els computed signals com a inputs.-->
-      <courses-card-list [courses]="beginnerCourses()"></courses-card-list>
+      <!--Perque es vegin els canvis al moment.-->
+      <courses-card-list [courses]="beginnerCourses()" (courseUpdated)="onCourseUpdated($event)"></courses-card-list>
     </mat-tab>
 
     <mat-tab label="Advanced">
       <!--passant els computed signals com a inputs.-->
-      <courses-card-list [courses]="advancedCourses()"></courses-card-list>
+      <courses-card-list [courses]="advancedCourses()" (courseUpdated)="onCourseUpdated($event)"></courses-card-list>
     </mat-tab>
 
   </mat-tab-group>

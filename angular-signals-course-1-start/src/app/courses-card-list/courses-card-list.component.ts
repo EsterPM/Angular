@@ -17,6 +17,8 @@ export class CoursesCardListComponent {
   //És com un @Input(), però reactiu (és un Signal).
   courses = input.required<Course[]>(); //li dius que el component ha de rebre una llista de cursos.
 
+  courseUpdated = output<Course>();
+
   //Injectes el servei MatDialog per poder obrir diàlegs.
   dialog = inject(MatDialog);
 
@@ -30,5 +32,7 @@ export class CoursesCardListComponent {
         course
       }
     )
+    console.log(`Course edited:`, newCourse);
+    this.courseUpdated.emit(newCourse);
   }
 }
