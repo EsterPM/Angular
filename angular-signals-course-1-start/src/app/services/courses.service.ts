@@ -18,10 +18,7 @@ export class CoursesService {
 
   async loadAllCourses(): Promise<Course[]> {
     const courses$ =
-      this.http.get<GetCoursesResponse>(`${this.env.apiRoot}/courses`,
-      {
-        context: new HttpContext().set(SkipLoading, true)
-      }) //Afegeix un context per saltar la càrrega (Exemple per saltar el spinner de carrega)
+      this.http.get<GetCoursesResponse>(`${this.env.apiRoot}/courses`);
 
     //Com que HttpClient.get() retorna un Observable, el converteixes a una Promise amb firstValueFrom().
     const response = await firstValueFrom(courses$);
