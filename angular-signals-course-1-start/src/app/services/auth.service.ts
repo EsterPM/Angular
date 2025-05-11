@@ -20,6 +20,7 @@ export class AuthService {
 
   http = inject(HttpClient);
 
+  router = inject(Router);
 
   async login(email: string, password: string): Promise<User> {
     const login$ = this.http.post<User>(`${environment.apiRoot}/login`, {
@@ -29,6 +30,11 @@ export class AuthService {
     const user = await firstValueFrom(login$);
     this.#userSignal.set(user);
     return user;
+  }
+
+  async logout() {
+    this.#userSignal.set(null);
+    await this.router.navigateByUrl('/login');
   }
 
 }
