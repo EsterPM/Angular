@@ -104,7 +104,7 @@ export class HomeComponent {
         title: "Create New Course"
       }
     )
-    //Si l'usuari tanca el formulari sense guardar, newCourse serà falsy (null o undefined).
+    //-Si l'usuari tanca el formulari sense guardar, newCourse serà falsy (null o undefined).
     if (!newCourse) {
       return;
     }
