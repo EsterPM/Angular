@@ -22,6 +22,28 @@ export class AuthService {
 
   router = inject(Router);
 
+  // Si hi ha un usuari, l'efecte l'emmagatzema al localStorage com a JSON.
+  constructor() {
+    this.loadUserFromStorage();
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        localStorage.setItem(USER_STORAGE_KEY,
+          JSON.stringify(user));
+      }
+    });
+  }
+
+  //Mira si hi ha un valor emmagatzemat al localStorage amb la clau USER_STORAGE_KEY
+  loadUserFromStorage() {
+    const json = localStorage.getItem(USER_STORAGE_KEY);
+    //Si hi ha dades, les transforma de JSON a objecte User i les guarda al signal
+    if (json) {
+      const user = JSON.parse(json);
+      this.#userSignal.set(user);
+    }
+  }
+
   async login(email: string, password: string): Promise<User> {
     const login$ = this.http.post<User>(`${environment.apiRoot}/login`, {
       email,
@@ -33,6 +55,7 @@ export class AuthService {
   }
 
   async logout() {
+    localStorage.removeItem(USER_STORAGE_KEY);
     this.#userSignal.set(null);
     await this.router.navigateByUrl('/login');
   }
