@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import {Component, inject} from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatSidenav, MatSidenavContainer} from "@angular/material/sidenav";
@@ -19,6 +20,8 @@ import {MessagesComponent} from "./messages/messages.component";
     styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  authService = inject(AuthService);
 
+  isLoggedIn = this.authService.isLoggedIn;
 
 }
