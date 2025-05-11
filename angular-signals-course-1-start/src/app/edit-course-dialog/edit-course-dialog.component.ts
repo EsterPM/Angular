@@ -34,20 +34,24 @@ export class EditCourseDialogComponent {
   form = this.fb.group({
     title: [''],
     longDescription: [''],
-    category: [''],
     iconUrl: ['']
   });
 
   courseService = inject(CoursesService);
+
+  category = signal<CourseCategory>("BEGINNER");
 
   //Al construir el component, emplenes el formulari amb les dades del curs que has passat com a entrada.
   constructor() {
     this.form.patchValue({
       title: this.data?.course?.title,
       longDescription: this.data?.course?.longDescription,
-      category: this.data?.course?.category,
       iconUrl: this.data?.course?.iconUrl
     });
+    this.category.set(this.data?.course!.category);
+    effect(() => {
+      console.log(`Course category bi-direction binding: ${this.category()}`);
+    })
   }
 
   onClose() {
@@ -58,6 +62,7 @@ export class EditCourseDialogComponent {
   async onSave() {
     const courseProps =
       this.form.value as Partial<Course>;
+    courseProps.category = this.category();
     //Si el mode és "update", cridem a la funció que guarda el curs amb l'id del curs original i els canvis.
     if (this.data?.mode === "update") {
       await this.saveCourse(this.data?.course!.id, courseProps);
