@@ -8,7 +8,7 @@
     <div class="course-description">
       <p>{{course.longDescription}}</p>
     </div>
-    <div class="course-actions">
+    <div class="course-actions" [routerLink]="['courses', course.id]">
       <button class="btn">
         VIEW COURSE
       </button>
