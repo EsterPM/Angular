@@ -15,7 +15,12 @@
     </textarea>
   </div>
 
-  <course-category-combobox label="Course category" [(value)]="category" />
+  <!--el component course-category-combobox rep contingut dins seu (el <div> amb #title), que serà projectat dins el seu ng-content.-->
+  <course-category-combobox label="Course category" [(value)]="category">
+    <div class="title" #title>
+      Course category (via content projectionp)
+    </div>
+  </course-category-combobox>
 
   <div class="form-control">
     <label>Course category:</label>
