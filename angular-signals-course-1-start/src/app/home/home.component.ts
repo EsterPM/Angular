@@ -131,6 +131,28 @@ export class HomeComponent {
     this.#courses.set(newCourses);
   }
 
+  injector = inject(Injector);
+
+  onToObservableExample() {
+    const numbers = signal(0);
+    //El valor del signal es canvia tres cops, però només es guarda l'últim valor (3).
+    numbers.set(1);
+    numbers.set(2);
+    numbers.set(3);
+    //Es converteix el signal en un Observable
+    const numbers$ = toObservable(numbers, {
+      injector: this.injector
+    });
+    //Encara que s'estableixi abans de la subscripció, no es capturarà en l'observable perquè aquest encara no s'ha subscrit.
+    numbers.set(4);
+    //Es fa la subscripció. A partir d'aquest punt, qualsevol canvi al signal emetrà valors a l'observable.
+    numbers$.subscribe(val => {
+      console.log(`numbers$: `, val)
+    })
+    //Aquest canvi sí que serà capturat i mostrat pel console.log
+    numbers.set(5);
+  }
+
 }
 
 
