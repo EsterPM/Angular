@@ -1,6 +1,7 @@
+
 import { CoursesServiceWithFetch } from './../services/courses-fetch.service';
 import { timeout } from 'rxjs/operators';
-import { afterNextRender, Component, computed, effect, EffectRef, inject, Injector, signal } from '@angular/core';
+import { afterNextRender, Component, computed, effect, EffectRef, inject, Injector, signal, viewChild } from '@angular/core';
 import { CoursesService } from "../services/courses.service";
 import { Course, sortCoursesBySeqNo } from "../models/course.model";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
@@ -10,6 +11,7 @@ import { MessagesService } from "../messages/messages.service";
 import { catchError, from, throwError } from "rxjs";
 import { toObservable, toSignal, outputToObservable, outputFromObservable } from "@angular/core/rxjs-interop";
 import { openEditCourseDialog } from '../edit-course-dialog/edit-course-dialog.component';
+import { MatTooltip } from '@angular/material/tooltip';
 
 
 @Component({
@@ -46,7 +48,17 @@ export class HomeComponent {
 
   messageService = inject(MessagesService);
 
+  beginnersList = viewChild("beginnersList",
+    {
+      read: MatTooltip
+    }
+  );
+
   constructor() {
+    effect(() => {
+      console.log(`beginnersList: `, this.beginnersList())
+    })
+
     effect(() => {
       console.log(`Beginner courses: `, this.beginnerCourses())
       console.log(`Advanced courses: `, this.advancedCourses())

@@ -12,7 +12,9 @@
       <!--Eliminar curs-->
       <courses-card-list [courses]="beginnerCourses()"
         (courseUpdated)="onCourseUpdated($event)"
-        (courseDeleted)="onCourseDeleted($event)">
+        (courseDeleted)="onCourseDeleted($event)"
+        #beginnersList
+        matTooltip="These are the beginner courses">
       </courses-card-list>
     </mat-tab>
 
