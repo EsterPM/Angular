@@ -47,4 +47,14 @@ export class LessonsService {
     return response.lessons;
   }
 
+  async saveLesson(
+    lessonId:string,
+    changes:Partial<Lesson>): Promise<Lesson> {
+    const saveLesson$ = this.http.put<Lesson>(
+      `${this.env.apiRoot}/lessons/${lessonId}`, //Endpoint per actualitzar la lliçó
+      changes //Cos de la petició: els canvis a aplicar
+    )
+    return firstValueFrom(saveLesson$);
+  }
+
 }
