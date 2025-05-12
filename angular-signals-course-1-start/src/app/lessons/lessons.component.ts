@@ -27,7 +27,20 @@ export class LessonsComponent {
     //Obtenim el valor que l'usuari ha escrit al camp de cerca
     const query = this.searchInput()?.nativeElement.value;
     console.log('search query', query);
+    const results =
+      await this.lessonsService.loadLessons({query});
+    this.lessons.set(results);
+  }
 
+  //Quan l'usuari selecciona una lliçó, canviem al mode "detail" i guardem la lliçó seleccionada.
+  onLessonSelected(lesson: Lesson) {
+    this.mode.set("detail");
+    this.selectedLesson.set(lesson);
+  }
+
+  //Quan l'usuari cancel·la, tornem al mode "master" (vista general de la llista).
+  onCancel() {
+    this.mode.set("master");
   }
 
 }

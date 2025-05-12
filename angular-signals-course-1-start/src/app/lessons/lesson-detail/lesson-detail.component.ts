@@ -14,6 +14,16 @@ import {MessagesService} from "../../messages/messages.service";
 })
 export class LessonDetailComponent {
 
+  lesson = input.required<Lesson | null>();
+  lessonUpdated = output<Lesson>();
+  cancel = output();
+
+  lessonsService = inject(LessonsService);
+  messagesService = inject(MessagesService);
+
+  onCancel() {
+    this.cancel.emit();
+  }
 
 
 }
