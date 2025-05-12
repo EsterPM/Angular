@@ -25,6 +25,13 @@ export class CoursesService {
     return response.courses;
   }
 
+  async getCourseById(courseId: string): Promise<Course> {
+    const course$ =
+      this.http.get<Course>(
+        `${this.env.apiRoot}/courses/${courseId}`);
+    return firstValueFrom(course$)
+  }
+
   //Accepta un objecte parcial (Partial<Course>) perquè potser no tens tots els camps (p. ex. l'id el genera el servidor).
   async createCourse(course: Partial<Course>): Promise<Course> {
     const course$ =
