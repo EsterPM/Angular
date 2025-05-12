@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, output, viewChildren } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { Course } from "../models/course.model";
 import { MatDialog } from "@angular/material/dialog";
@@ -23,6 +23,16 @@ export class CoursesCardListComponent {
 
   //Injectes el servei MatDialog per poder obrir diàlegs.
   dialog = inject(MatDialog);
+
+  //viewChildren = Recupera una llista (array) d'elements o components fills. (Llistes, múltiples targetes, etc.)
+  //Obtenim totes les referències als elements amb #courseCards
+  courseCards = viewChildren("courseCards");
+
+  constructor() {
+    effect(() => {
+      console.log("courseCards", this.courseCards());
+    })
+  }
 
   //await espera a que es tanqui el diàleg i rep el nou curs com a resposta (si es guarda).
   async onEditCourse(course: Course) {

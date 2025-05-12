@@ -48,6 +48,8 @@ export class HomeComponent {
 
   messageService = inject(MessagesService);
 
+
+  //viewChild = Recupera un únic element del DOM o component fill. (Formularis, inputs, components únics)
   beginnersList = viewChild("beginnersList",
     {
       read: MatTooltip
