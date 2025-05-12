@@ -153,6 +153,43 @@ export class HomeComponent {
     numbers.set(5);
   }
 
+  courses$ = from(this.coursesService.loadAllCourses());
+
+  //convertir un Observable a un Signal
+  onToSignalExample() {
+    try {
+      //Creació d'un observable amb gestió d'errors
+      const courses$ = from(this.coursesService.loadAllCourses())
+        .pipe(
+          catchError(err => {
+            console.log(`Error caught in catchError`, err)
+            throw err;
+          })
+        );
+
+      //Conversió a signal
+      const courses = toSignal(courses$, {
+        injector: this.injector,
+        rejectErrors: true //si hi ha un error, no s'ignora
+      })
+
+      //canvis del signal i mostrar els cursos per consola
+      effect(() => {
+        console.log(`Courses: `, courses())
+      }, {
+        injector: this.injector
+      })
+
+      //Cada segon s'imprimeix el valor actual del signal
+      setInterval(() => {
+        console.log(`Reading courses signal: `, courses())
+      }, 1000)
+
+    }
+    catch (err) {
+      console.log(`Error in catch block: `, err)
+    }
+  }
 }
 
 
