@@ -16,7 +16,23 @@ export class ResourceDemoComponent {
 
   search = signal<string>('');
 
-  lessons = signal<Lesson[]>([])
+  //Creem un resource, un tipus especial de signal que permet fer càrregues de dades asíncrones amb dependències reactives (en aquest cas, la cerca).
+  lessons = resource<Lesson[], {search:string}>({
+    request: () => ({
+      search: this.search()
+    }),
+    //abortSignal que Angular pot utilitzar per cancel·lar càrregues anteriors si es fa una nova cerca abans que la resposta arribi.
+    loader: async ({request, abortSignal}) => {
+      const response = await
+        fetch(`${this.env.apiRoot}/search-lessons?query=${request.search}&courseId=18`,
+          {
+            signal: abortSignal
+          });
+      const json = await response.json();
+      return json.lessons;
+    }
+  });
+
 
   constructor() {
 
